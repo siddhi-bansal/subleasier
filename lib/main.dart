@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
             alignment: const Alignment(0.05, 0),
             colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.6), 
+              Colors.black.withOpacity(0.8), 
               BlendMode.dstATop, // Blend mode for the color filter
             ),
           ),
@@ -74,10 +74,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const SizedBox(height: 60.0),
+            const SizedBox(height: 110.0),
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(166, 191, 87, 0)),
+                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(230, 191, 87, 0)),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20), // Set border radius to 0 for a rectangular button
@@ -114,10 +114,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-            const SizedBox(height: 60.0), 
+            const SizedBox(height: 50.0), 
             ElevatedButton(
               style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(166, 191, 87, 0)),
+                backgroundColor: MaterialStateProperty.all<Color>(const Color.fromARGB(230, 191, 87, 0)),
                 shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                   RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20), // Set border radius to 0 for a rectangular button
