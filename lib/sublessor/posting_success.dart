@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:subleasier/sublessee/postings_board.dart';
 
 class PostingSuccess extends StatelessWidget {
   @override
@@ -27,7 +28,9 @@ class PostingSuccess extends StatelessWidget {
             ),
           ),
       ),
-      body: Container(
+      body: Stack(
+        children: [
+          Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: const AssetImage('images/tower.jpg'),
@@ -39,7 +42,63 @@ class PostingSuccess extends StatelessWidget {
               BlendMode.dstATop, // Blend mode for the color filter
             ),
           ),
+        )
+          ),
+      Positioned(
+        top: 313,
+        left: 31,
+        child: Container(
+        width: 332,
+        height: 226,
+        decoration: BoxDecoration(
+          color:const Color.fromARGB(200, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20)
         ),
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+          children: [
+            const SizedBox(height: 10),
+            const Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
+            child: Text(
+            'Congrats, we’ve listed your apartment! Interested sublessees will reach out to you at the phone number you provided!',
+            style: TextStyle(
+              fontSize: 18,
+            ),
+            textAlign: TextAlign.center,
+            )
+          )
+          ), 
+          Padding(
+            padding:EdgeInsets.symmetric(horizontal: 60.0),
+            child: ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(120, 255, 115, 0)),
+                minimumSize: MaterialStateProperty.all<Size>(const Size(10, 40)),
+              ),
+            onPressed: () {
+              Navigator.push(
+                context, 
+                MaterialPageRoute(builder: (context) => PostingsBoard()));
+            }, 
+            child: const Center(child: 
+            Text(
+              'View all Listings',
+              style: TextStyle(
+                color: Colors.white,
+              )
+              )
+              )
+            )
+          )
+            ]
+        ),
+      )
+        )
+      )
+        ]
       ),
     );
   }

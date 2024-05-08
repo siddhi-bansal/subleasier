@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'posting_success.dart';
 
 class SublessorForm extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class SublessorForm extends StatelessWidget {
             ),
           ),
           bottom: const PreferredSize(
-            preferredSize: Size.fromHeight(20.0), // Adjust the height of the subtitle area
+            preferredSize: Size.fromHeight(20), // Adjust the height of the subtitle area
             child: Padding(
               padding: EdgeInsets.only(bottom: 0.0),
               child: Text(
@@ -27,7 +28,9 @@ class SublessorForm extends StatelessWidget {
             ),
           ),
       ),
-      body: Container(
+      body: Stack(
+        children: [
+          Container(
         decoration: BoxDecoration(
           image: DecorationImage(
             image: const AssetImage('images/tower.jpg'),
@@ -39,8 +42,53 @@ class SublessorForm extends StatelessWidget {
               BlendMode.dstATop, // Blend mode for the color filter
             ),
           ),
+        )
+          ),
+      Positioned(
+        top: 145,
+        left: 31,
+        child: Container(
+        width: 332,
+        height: 680,
+        decoration: BoxDecoration(
+          color:const Color.fromARGB(200, 255, 255, 255),
+          borderRadius: BorderRadius.circular(20)
         ),
+        child: Column(
+          children: <Widget>[
+            const SizedBox(height: 20.0),
+            const Text('rest of the content for form will go in here!'),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(120, 255, 115, 0))
+              ),
+              onPressed: () {
+                submitForm(context);
+              }, 
+              child: const Text(
+                'Submit',
+                style: TextStyle(
+                    color: Colors.white
+                    )
+                )
+            )
+          ]
+        )
+      )
+      )
+        ]
       ),
     );
   }
+}
+
+/*
+This method should send data to firebase. Then, navigate to posting_success.
+*/
+void submitForm(BuildContext context) {
+  print('Form submitted!');
+  Navigator.push(
+    context,
+    MaterialPageRoute(builder: (context) => PostingSuccess()),
+  );
 }
