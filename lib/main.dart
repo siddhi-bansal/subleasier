@@ -98,7 +98,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22.0,
-                      color: Colors.black
+                      color: Colors.white
                     )
                   ),
                   SizedBox(height: 10.0),
@@ -107,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18.0,
-                      color: Colors.black
+                      color: Colors.white
                     ),
                   ),
                   SizedBox(height: 30.0),
@@ -138,7 +138,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22.0,
-                      color: Colors.black
+                      color: Colors.white
                     )
                   ),
                   SizedBox(height: 10.0),
@@ -147,7 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 18.0,
-                      color: Colors.black
+                      color: Colors.white
                     ),
                   ),
                   SizedBox(height: 30.0),

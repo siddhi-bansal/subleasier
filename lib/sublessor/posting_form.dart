@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
 import 'posting_success.dart';
 
-class SublessorForm extends StatelessWidget {
+final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
+class SublessorForm extends StatefulWidget {
+  @override
+  _SublessorFormState createState() => _SublessorFormState();
+}
+
+class _SublessorFormState extends State<SublessorForm> {
+  
+  String _name = '';
+  String _email = '';
+  String? _sex = 'Choose an Option';
+  String _location = '';
+  final List<String> _sexList = ['Choose an Option', 'Male', 'Female'];
+  final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,8 +71,93 @@ class SublessorForm extends StatelessWidget {
         child: Column(
           children: <Widget>[
             const SizedBox(height: 20.0),
-            const Text('rest of the content for form will go in here!'),
-            ElevatedButton(
+            Form( 
+        key: _formKey, // Associate the form key with this Form widget 
+        child: Padding( 
+          padding: EdgeInsets.symmetric(horizontal: 16.0), 
+          child: Column( 
+            children: <Widget>[
+              const Center(child: Text('About You', style: TextStyle(fontSize: 20, color: Colors.black))), 
+              TextFormField( 
+                decoration: const InputDecoration(
+                  labelText: 'Name',
+                  labelStyle: TextStyle(color: Colors.black, fontSize: 15),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color.fromARGB(237, 193, 90, 5),), // Change to your desired color
+                  ),
+                  ),
+                cursorColor: Color.fromARGB(237, 193, 90, 5),
+                style: TextStyle(fontSize: 15.0),
+                validator: (value) { 
+                  // Validation function for the name field 
+                  if (value!.isEmpty) { 
+                    return 'Please enter your name.'; // Return an error message if the name is empty 
+                  } 
+                  return null; // Return null if the name is valid 
+                }, 
+                onSaved: (value) { 
+                  _name = value!; // Save the entered name 
+                }, 
+              ), 
+              TextFormField( 
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.black, fontSize: 15),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color.fromARGB(237, 193, 90, 5),), // Change to your desired color
+                  ),
+                  ),
+                cursorColor: const Color.fromARGB(237, 193, 90, 5),
+                style: TextStyle(fontSize: 15.0),
+                validator: (value) { 
+                  // Validation function for the email field 
+                  if (value!.isEmpty) { 
+                    return 'Please enter your email.'; // Return an error message if the email is empty 
+                  } 
+                  return null; // Return null if the email is valid 
+                }, 
+                onSaved: (value) { 
+                  _email = value!; // Save the entered email 
+                }, 
+              ), 
+              SizedBox(height: 10),
+              FormField<String>(
+                validator: (value) {
+                  if (value == null || value.isEmpty || value == 'Choose an option') {
+                    return 'Please choose an option'; // Return an error message if "Choose an option" is selected
+                  }
+                  return null; // Return null if the value is valid
+                },
+              builder: (FormFieldState<String> state) {
+              return DropdownButtonFormField<String>(
+                value: _sex ?? '',
+                onChanged: (String? newValue) {
+                  setState(() {
+                    _sex = newValue;
+                    state.didChange(newValue);
+                  });
+                },
+                items: _sexList.map((String option) {
+                  return DropdownMenuItem<String>(
+                    value: option,
+                    child: Text(option)
+                  );
+                }
+                ).toList(),
+                 decoration: const InputDecoration(
+                  labelText: 'Sex',
+                  labelStyle: TextStyle(color: Colors.black, fontSize: 15, height: 1),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Color.fromARGB(237, 193, 90, 5),), // Change to your desired color
+                  ),
+                  ),
+              );
+              
+              }
+              ),
+
+              const SizedBox(height: 20.0),
+              ElevatedButton(
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(120, 255, 115, 0))
               ),
@@ -71,7 +170,11 @@ class SublessorForm extends StatelessWidget {
                     color: Colors.white
                     )
                 )
-            )
+            ), 
+            ], 
+          ), 
+        ), 
+      ),
           ]
         )
       )
@@ -86,9 +189,13 @@ class SublessorForm extends StatelessWidget {
 This method should send data to firebase. Then, navigate to posting_success.
 */
 void submitForm(BuildContext context) {
-  print('Form submitted!');
-  Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => PostingSuccess()),
-  );
+  if (_formKey.currentState!.validate()) {
+    print('Form submitted!');
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PostingSuccess()),
+    );
+  }
+  // else, Flutter will automatically handle error.
+
 }
