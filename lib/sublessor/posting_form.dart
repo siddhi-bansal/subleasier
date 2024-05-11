@@ -98,7 +98,7 @@ class _SublessorFormState extends State<SublessorForm> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           // const Center(child: Text('About You', style: TextStyle(fontSize: 19, color: Colors.black))),
-                          const SizedBox(height: 6),
+                          // const SizedBox(height: 6),
                           TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Your Name',
