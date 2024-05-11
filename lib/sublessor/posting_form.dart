@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:image_picker/image_picker.dart';
 import 'posting_success.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -18,9 +21,25 @@ class _SublessorFormState extends State<SublessorForm> {
   String? _location = 'Moontower';
   String? _additional_info = '';
   int _monthly_price = 0;
+  List<File> _images = [];
+  final picker = ImagePicker();
   final List<String> _sexList = ['Male', 'Female'];
   final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
   @override
+
+  Future getImages() async {
+    try {
+      final pickedFiles = await picker.pickMultiImage();
+    setState(() {
+      _images = pickedFiles.map((pickedFile) => File(pickedFile.path)).toList();
+    });
+    } catch (e) {
+      print('Error picking images: $e');
+    }
+    
+  }
+
+
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -82,10 +101,11 @@ class _SublessorFormState extends State<SublessorForm> {
           child: Column( 
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              const Center(child: Text('About You', style: TextStyle(fontSize: 20, color: Colors.black))), 
+              // const Center(child: Text('About You', style: TextStyle(fontSize: 19, color: Colors.black))), 
+              SizedBox(height: 6),
               TextFormField( 
                 decoration: const InputDecoration(
-                  labelText: 'Name',
+                  labelText: 'Your Name',
                   labelStyle: TextStyle(color: Colors.black, fontSize: 15),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Color.fromARGB(237, 193, 90, 5),), // Change to your desired color
@@ -103,10 +123,11 @@ class _SublessorFormState extends State<SublessorForm> {
                 onSaved: (value) { 
                   _name = value!; // Save the entered name 
                 }, 
-              ), 
+              ),
+              SizedBox(height: 10), 
               TextFormField( 
                 decoration: const InputDecoration(
-                  labelText: 'Email',
+                  labelText: 'Your Email',
                   labelStyle: TextStyle(color: Colors.black, fontSize: 15),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Color.fromARGB(237, 193, 90, 5),), // Change to your desired color
@@ -125,13 +146,12 @@ class _SublessorFormState extends State<SublessorForm> {
                   _email = value!; // Save the entered email 
                 }, 
               ), 
-              SizedBox(height: 10.0),
-              
+              const SizedBox(height: 10.0),
               DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
-                    labelText: 'Sex', // Hint text
+                    labelText: 'Your Sex', // Hint text
                     labelStyle:
-               TextStyle(color: Colors.black, fontSize: 18),
+               TextStyle(color: Colors.black, fontSize: 15),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(237, 193, 90, 5),
@@ -151,11 +171,11 @@ class _SublessorFormState extends State<SublessorForm> {
                     });
                   },
                 ),
-                const SizedBox(height: 15.0),
-                const Center(child: Text('About Your Apartment', style: TextStyle(fontSize: 20, color: Colors.black))), 
+                const SizedBox(height: 10.0),
+                // const Center(child: Text('About Your Apartment', style: TextStyle(fontSize: 19, color: Colors.black))), 
                  TextFormField( 
                 decoration: const InputDecoration(
-                  labelText: 'Monthly Price (\$)',
+                  labelText: 'Monthly Price (\$) of Apartment',
                   labelStyle: TextStyle(color: Colors.black, fontSize: 15),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Color.fromARGB(237, 193, 90, 5),), // Change to your desired color
@@ -180,12 +200,11 @@ class _SublessorFormState extends State<SublessorForm> {
               ), 
 
             const SizedBox(height: 10.0),
-
             DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
-                    labelText: 'Location', // Hint text
+                    labelText: 'Location of Apartment', // Hint text
                     labelStyle:
-               TextStyle(color: Colors.black, fontSize: 18),
+               TextStyle(color: Colors.black, fontSize: 15),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(237, 193, 90, 5),
@@ -205,10 +224,10 @@ class _SublessorFormState extends State<SublessorForm> {
                     });
                   },
                 ),
-
+                SizedBox(height: 10),
                 TextFormField( 
                 decoration: const InputDecoration(
-                  labelText: 'Additional Info',
+                  labelText: 'Additional Info about Apartment',
                   labelStyle: TextStyle(color: Colors.black, fontSize: 15),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: Color.fromARGB(237, 193, 90, 5),), // Change to your desired color
@@ -224,12 +243,26 @@ class _SublessorFormState extends State<SublessorForm> {
                 }, 
               ), 
               const SizedBox(height: 15.0),
-                const Center(child: Text('About Your Sublessee', style: TextStyle(fontSize: 20, color: Colors.black))), 
+              ElevatedButton(
+                onPressed: getImages,
+                child: Text('Upload Images', style: TextStyle(color: Colors.white),),
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all<Color>(Color.fromARGB(120, 255, 115, 0)),
+                  minimumSize: MaterialStateProperty.all<Size>(Size(20, 30)),
+                  shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(0), // Set border radius to 0 for a rectangular button
+                  )
+                ),
+              ),
+              ),
+              const SizedBox(height: 15.0),
+                // const Center(child: Text('About Your Sublessee', style: TextStyle(fontSize: 19, color: Colors.black))), 
                 DropdownButtonFormField<String>(
                   decoration: const InputDecoration(
-                    labelText: 'Preferred Sex', // Hint text
+                    labelText: 'Preferred Sex of Sublessee', // Hint text
                     labelStyle:
-               TextStyle(color: Colors.black, fontSize: 18),
+               TextStyle(color: Colors.black, fontSize: 15),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(
                         color: Color.fromARGB(237, 193, 90, 5),
@@ -249,8 +282,6 @@ class _SublessorFormState extends State<SublessorForm> {
                     });
                   },
                 ),
-
-
               const SizedBox(height: 20.0),
               ElevatedButton(
               style: ButtonStyle(
