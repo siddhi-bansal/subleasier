@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "861160915653",
+    "project_id": "subleasier",
+    "storage_bucket": "subleasier.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:861160915653:android:255350f09bbb321fa266ac",
+        "android_client_info": {
+          "package_name": "com.example.subleasier"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBECgG3vdnk-FaX-pZE_7f2_7VHKSVce1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

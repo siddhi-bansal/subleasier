@@ -4,11 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'posting_success.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import '../firestore_service.dart';
+import 'package:uuid/uuid.dart';
+// import 'package:firebase_auth/firebase_auth.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+var uuid = const Uuid();
 
 class SublessorForm extends StatefulWidget {
   @override
+  
   _SublessorFormState createState() => _SublessorFormState();
 }
 
@@ -18,13 +25,14 @@ class _SublessorFormState extends State<SublessorForm> {
   String? _sex = 'Male';
   String? _sublessee_preferred_sex = 'Male';
   String? _location = 'Moontower';
-  String? _additional_info = '';
+  String _additional_info = '';
   int _monthly_price = 0;
   List<File> _images = [];
   final picker = ImagePicker();
   final List<String> _sexList = ['Male', 'Female'];
   final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
   @override
+
   Future getImages() async {
     try {
       final pickedFiles = await picker.pickMultiImage();
@@ -307,7 +315,7 @@ class _SublessorFormState extends State<SublessorForm> {
                                           Color>(
                                       const Color.fromARGB(120, 255, 115, 0))),
                               onPressed: () {
-                                submitForm(context);
+                                submitForm(context, _name, _email, _sex, _monthly_price, _location, _additional_info, _sublessee_preferred_sex, _images);
                               },
                               child: const Text('Submit',
                                   style: TextStyle(color: Colors.white))),
@@ -324,16 +332,51 @@ class _SublessorFormState extends State<SublessorForm> {
   }
 }
 
+// This method will upload the images stored as Files to Firebase Storage and return their corresonding URLs
+// in Storage
+Future<List<String>> upload_images_to_fb_storage(List<File> images, String uuid) async {
+  List<String> image_urls = [];
+
+  for (int i = 0; i < images.length; i++) {
+
+    final storageRef = FirebaseStorage.instance.ref();
+    final uploadTask = storageRef.child('$uuid/image_$i').putFile(images[i]);
+    await uploadTask.whenComplete(() async {
+      String url = await storageRef.getDownloadURL();
+      image_urls.add(url);
+    });
+  }
+
+  return image_urls;
+}
+
 /*
-This method should send data to firebase. Then, navigate to posting_success.
+This method should send data to Firestore. Then, navigate to posting_success.
 */
-void submitForm(BuildContext context) {
+void submitForm(BuildContext context, String name, String email, String? sex, int price, String? location, String additional_info, String? sublessee_preferred_sex, List<File> images) async {
   if (_formKey.currentState!.validate()) {
+    final db = FirestoreService().db;
+    String curr_uuid = uuid.v4();
+    List<String> image_urls = await upload_images_to_fb_storage(images, curr_uuid);
+
+    final posting = {'name': name, 'email': email, 'sublessor sex': sex, 'price': price, 'location': location, 'additional info': additional_info, 'preferred sublessee sex': sublessee_preferred_sex, 'images': image_urls};
+    db.collection('postings').add(posting).then((DocumentReference doc) =>
+      print('Apartment added with ID: ${doc.id}'));
+    
     print('Form submitted!');
+    
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PostingSuccess()),
     );
+
+    // print('Curr db storage:');
+    // await db.collection("users").get().then((event) {
+    //   for (var doc in event.docs) {
+    //     print("${doc.id} => ${doc.data()}");
+    //   }
+    // });
+
   }
   // else, Flutter will automatically handle error.
 }

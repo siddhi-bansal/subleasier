@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:subleasier/firebase_options.dart';
 import 'sublessor/posting_form.dart';
 import 'sublessee/postings_board.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-void main() {
+
+
+Future <void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
