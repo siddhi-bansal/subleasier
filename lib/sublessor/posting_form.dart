@@ -20,17 +20,17 @@ class SublessorForm extends StatefulWidget {
 }
 
 class _SublessorFormState extends State<SublessorForm> {
+  final picker = ImagePicker();
   String _name = '';
   String _email = '';
-  String? _sex = 'Male';
-  String? _sublessee_preferred_sex = 'Male';
-  String? _location = 'Moontower';
-  String _additional_info = '';
-  int _monthly_price = 0;
+    String? _sex = 'Male';
+    String? _sublessee_preferred_sex = 'Male';
+    String? _location = 'Moontower';
+    String _additional_info = '';
+    int _monthly_price = 0;
+    final List<String> _sexList = ['Male', 'Female'];
+    final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
   List<File> _images = [];
-  final picker = ImagePicker();
-  final List<String> _sexList = ['Male', 'Female'];
-  final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
   @override
 
   Future getImages() async {
@@ -128,7 +128,9 @@ class _SublessorFormState extends State<SublessorForm> {
                               return null; // Return null if the name is valid
                             },
                             onSaved: (value) {
-                              _name = value!; // Save the entered name
+                              setState(() {
+                                _name = value!; // Save the entered name
+                              });
                             },
                           ),
                           const SizedBox(height: 10),
@@ -153,7 +155,9 @@ class _SublessorFormState extends State<SublessorForm> {
                               return null; // Return null if the email is valid
                             },
                             onSaved: (value) {
+                               setState(() {
                               _email = value!; // Save the entered email
+                               });
                             },
                           ),
                           const SizedBox(height: 10.0),
@@ -209,8 +213,9 @@ class _SublessorFormState extends State<SublessorForm> {
                               }
                             },
                             onSaved: (value) {
-                              _monthly_price = int.parse(
-                                  value!); // Save the entered monthly price
+                               setState(() {
+                                _monthly_price = int.parse(value!); // Save the entered monthly price
+                               });
                             },
                           ),
 
@@ -257,8 +262,9 @@ class _SublessorFormState extends State<SublessorForm> {
                               return null; // Return null if the name is valid
                             },
                             onSaved: (value) {
-                              _additional_info =
-                                  value!; // Save the entered name
+                               setState(() {
+                                _additional_info = value!; // Save the entered name
+                               });
                             },
                           ),
                           const SizedBox(height: 15.0),
@@ -315,6 +321,8 @@ class _SublessorFormState extends State<SublessorForm> {
                                           Color>(
                                       const Color.fromARGB(120, 255, 115, 0))),
                               onPressed: () {
+                                print('yas');
+                                _formKey.currentState!.save();
                                 submitForm(context, _name, _email, _sex, _monthly_price, _location, _additional_info, _sublessee_preferred_sex, _images);
                               },
                               child: const Text('Submit',
@@ -337,14 +345,17 @@ class _SublessorFormState extends State<SublessorForm> {
 Future<List<String>> upload_images_to_fb_storage(List<File> images, String uuid) async {
   List<String> image_urls = [];
 
-  for (int i = 0; i < images.length; i++) {
+  try {
+    for (int i = 0; i < images.length; i++) {
 
-    final storageRef = FirebaseStorage.instance.ref();
-    final uploadTask = storageRef.child('$uuid/image_$i').putFile(images[i]);
-    await uploadTask.whenComplete(() async {
-      String url = await storageRef.getDownloadURL();
+      final storageRef = FirebaseStorage.instance.ref();
+      final uploadTask = storageRef.child('$uuid/image_$i').putFile(images[i]);
+      await uploadTask;
+      String url = await storageRef.child('$uuid/image_$i').getDownloadURL();
       image_urls.add(url);
-    });
+    }
+  } catch(e) {
+    print('error: $e');
   }
 
   return image_urls;
