@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import '../firestore_service.dart';
 
 class PostingsBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // CALL IT HERE: get_all_postings_from_db();
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -45,3 +48,18 @@ class PostingsBoard extends StatelessWidget {
     );
   }
 }
+
+Future<List<Map<String, dynamic>>> get_all_postings_from_db() async {
+    final db = FirestoreService().db;
+    List<Map<String, dynamic>> all_postings = [];
+    try {
+      QuerySnapshot querySnapshot = await db.collection("postings").get();
+      for (var docSnapshot in querySnapshot.docs) {
+        Map<String, dynamic> posting = docSnapshot.data() as Map<String, dynamic>;
+        all_postings.add(posting);
+      }
+    } catch(e) {
+      print("Error completing: $e");
+    }
+    return all_postings;
+  }
