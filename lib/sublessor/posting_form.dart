@@ -12,6 +12,17 @@ import 'package:uuid/uuid.dart';
 
 final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 var uuid = const Uuid();
+final picker = ImagePicker();
+String _name = '';
+String _email = '';
+String? _sex = 'Male';
+String? _sublessee_preferred_sex = 'Male';
+String? _location = 'Moontower';
+String _additional_info = '';
+int _monthly_price = 0;
+final List<String> _sexList = ['Male', 'Female'];
+final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
+List<File> _images = [];
 
 class SublessorForm extends StatefulWidget {
   @override
@@ -20,17 +31,6 @@ class SublessorForm extends StatefulWidget {
 }
 
 class _SublessorFormState extends State<SublessorForm> {
-  final picker = ImagePicker();
-  String _name = '';
-  String _email = '';
-    String? _sex = 'Male';
-    String? _sublessee_preferred_sex = 'Male';
-    String? _location = 'Moontower';
-    String _additional_info = '';
-    int _monthly_price = 0;
-    final List<String> _sexList = ['Male', 'Female'];
-    final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
-  List<File> _images = [];
   @override
 
   Future getImages() async {

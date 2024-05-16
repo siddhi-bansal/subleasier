@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import '../firestore_service.dart';
+import '../sublessor/posting_form.dart';
 
 List<Map<String, dynamic>> all_postings = [];
 
@@ -17,6 +18,19 @@ class _PostingsBoardState extends State<PostingsBoard> {
     });
   }
 
+  Map<String, List<Map<String, dynamic>>> group_by_location(List<Map<String, dynamic>> postings) {
+    Map<String, List<Map<String, dynamic>>> groups = {};
+    for (int i = 0; i < postings.length; i++) {
+      String location = postings[i]['location'];
+      if (!groups.containsKey(location)) {
+        groups[location] = [postings[i]];
+      } else {
+        groups[location]!.add(postings[i]);
+      }
+    }
+    return groups;
+  }
+
   @override
   void initState() {
     super.initState();
@@ -24,6 +38,8 @@ class _PostingsBoardState extends State<PostingsBoard> {
   }
 
   Widget build(BuildContext context) {
+    Map<String, List<Map<String, dynamic>>> grouped_postings = group_by_location(all_postings);
+    // print(grouped_postings); // for debugging
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -49,8 +65,10 @@ class _PostingsBoardState extends State<PostingsBoard> {
             ),
           ),
         ),
-        body: Container(
-          decoration: BoxDecoration(
+        body: Stack (
+          children: [
+            Container(
+             decoration: BoxDecoration(
             image: DecorationImage(
               image: const AssetImage('images/tower.jpg'),
               fit: BoxFit.cover,
@@ -63,7 +81,30 @@ class _PostingsBoardState extends State<PostingsBoard> {
             ),
           ),
         ),
-      );
+        const Positioned.fill( 
+          child: Align (
+            alignment: Alignment.center,
+            child: const Text('hi'),
+          )
+           //      ListView.builder(
+          //       itemCount: grouped_postings.length,
+          //       itemBuilder: (context, index) {
+          //         return ListTile(
+          //           title: Container(
+          //             padding: EdgeInsets.all(12),
+          //             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          //             decoration: BoxDecoration(
+          //               color: Colors.white,
+          //               borderRadius: BorderRadius.circular(20),
+          //             ),
+          //             child: Text(grouped_postings[index]?.isNotEmpty ?? false ? grouped_postings[index]![0]['name'] : ''),
+          //           ),
+          //         );
+          //       },
+          // )
+        )],
+          ),
+          );
   }
 }
 
