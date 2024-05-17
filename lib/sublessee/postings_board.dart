@@ -86,6 +86,8 @@ class _PostingsBoardState extends State<PostingsBoard> {
         Positioned.fill(           
           child: Padding(
           padding: EdgeInsets.only(top: 15),
+          // first ListView.builder is to iterate through the apartments
+          // TODO: maybe change first ListView.builder into .map because the length isn't as much?
           child: ListView.builder(
                 itemCount: entries_list.length,
                 itemBuilder: (context, index) {
@@ -102,14 +104,9 @@ class _PostingsBoardState extends State<PostingsBoard> {
                       child: Column (
                         children: [
                           Text(entries_list[index].key, style: TextStyle(fontSize: 20)),
-                          // Column(
-                          //   crossAxisAlignment: CrossAxisAlignment.start,
-                          //   children: curr_postings.map((posting) {
-                          //     return Text(posting['email']); // Replace with your desired widget
-                          //   }).toList(),
-                          // ),
                           SizedBox(
                             height: 170,
+                            // second ListView.builder is for iterating through each posting within the current apartment
                             child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection: Axis.horizontal,
@@ -121,12 +118,6 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                 child: Text(posting['name']),
                               );
                             }))
-                          // ListView.builder(
-                          //   itemCount: curr_postings.length,
-                          //   itemBuilder: (curr_context, curr_index) {
-                          //     return Text('hi');
-                          //   }
-                          //   )
                             ]
                             )
                     ),
