@@ -20,8 +20,9 @@ String? _sublessee_preferred_sex = 'Male';
 String? _location = 'Moontower';
 String _additional_info = '';
 int _monthly_price = 0;
+bool image_error = false; // true if user submits form with 0 images
 final List<String> _sexList = ['Male', 'Female'];
-final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces'];
+final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces', 'Inspire'];
 List<File> _images = [];
 
 class SublessorForm extends StatefulWidget {
@@ -32,6 +33,12 @@ class SublessorForm extends StatefulWidget {
 
 class _SublessorFormState extends State<SublessorForm> {
   @override
+
+  void set_image_error_true() {
+    setState(() {
+      image_error = true;
+    });
+  }
 
   Future getImages() async {
     try {
@@ -214,7 +221,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             },
                             onSaved: (value) {
                                setState(() {
-                                _monthly_price = int.parse(value!); // Save the entered monthly price
+                                _monthly_price = int.tryParse(value!) ?? 0; // Save the entered monthly price
                                });
                             },
                           ),
@@ -269,13 +276,13 @@ class _SublessorFormState extends State<SublessorForm> {
                           ),
                           const SizedBox(height: 15.0),
                           ElevatedButton(
-                            onPressed: getImages,
+                            onPressed:getImages,
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color.fromARGB(120, 255, 115, 0)),
-                              minimumSize: MaterialStateProperty.all<Size>(
+                              minimumSize: WidgetStateProperty.all<Size>(
                                   const Size(20, 30)),
-                              shape: MaterialStateProperty.all<
+                              shape: WidgetStateProperty.all<
                                       RoundedRectangleBorder>(
                                   RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(
@@ -287,6 +294,7 @@ class _SublessorFormState extends State<SublessorForm> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
+                          Padding(padding: const EdgeInsets.all(5), child: Text('Please upload at least one image', style: TextStyle(color: image_error ? Colors.red : Colors.black))),
                           const SizedBox(height: 15.0),
                           // const Center(child: Text('About Your Sublessee', style: TextStyle(fontSize: 19, color: Colors.black))),
                           DropdownButtonFormField<String>(
@@ -321,9 +329,9 @@ class _SublessorFormState extends State<SublessorForm> {
                                           Color>(
                                       const Color.fromARGB(120, 255, 115, 0))),
                               onPressed: () {
-                                print('yas');
+                                // print('yas');
                                 _formKey.currentState!.save();
-                                submitForm(context, _name, _email, _sex, _monthly_price, _location, _additional_info, _sublessee_preferred_sex, _images);
+                                submitForm(context, _name, _email, _sex, _monthly_price, _location, _additional_info, _sublessee_preferred_sex, _images, set_image_error_true);
                               },
                               child: const Text('Submit',
                                   style: TextStyle(color: Colors.white))),
@@ -364,7 +372,11 @@ Future<List<String>> upload_images_to_fb_storage(List<File> images, String uuid)
 /*
 This method should send data to Firestore. Then, navigate to posting_success.
 */
-void submitForm(BuildContext context, String name, String email, String? sex, int price, String? location, String additional_info, String? sublessee_preferred_sex, List<File> images) async {
+void submitForm(BuildContext context, String name, String email, String? sex, int price, String? location, String additional_info, String? sublessee_preferred_sex, List<File> images, Function set_image_error_true) async {
+  if (images.isEmpty) {
+    set_image_error_true();
+    return null;
+  }
   if (_formKey.currentState!.validate()) {
     final db = FirestoreService().db;
     String curr_uuid = uuid.v4();

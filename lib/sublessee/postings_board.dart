@@ -103,7 +103,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
                       ),
                       child: Column (
                         children: [
-                          Text(entries_list[index].key, style: TextStyle(fontSize: 20)),
+                          Padding(padding: EdgeInsets.all(10), child: Text(entries_list[index].key, style: TextStyle(fontSize: 20))),
                           SizedBox(
                             height: 170,
                             // second ListView.builder is for iterating through each posting within the current apartment
@@ -115,7 +115,20 @@ class _PostingsBoardState extends State<PostingsBoard> {
                               final posting = curr_postings[curr_index];
                               return Padding(
                                 padding: EdgeInsets.all(10),
-                                child: Text(posting['name']),
+                                // child: Text(posting['name']),
+                                child: Center (
+                                  child: Image.network(
+                                    posting['images'][0],
+                                    loadingBuilder: (BuildContext imageContext, Widget child, ImageChunkEvent? loadingProgress) {
+                                      if (loadingProgress == null) {
+                                        return child;
+                                      }
+                                      return Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                  ),
+                                  )
                               );
                             }))
                             ]
