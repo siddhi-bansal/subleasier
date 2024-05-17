@@ -39,6 +39,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
 
   Widget build(BuildContext context) {
     Map<String, List<Map<String, dynamic>>> grouped_postings = group_by_location(all_postings);
+    final entries_list = grouped_postings.entries.toList();
     // print(grouped_postings); // for debugging
     return Scaffold(
         extendBodyBehindAppBar: true,
@@ -81,28 +82,28 @@ class _PostingsBoardState extends State<PostingsBoard> {
             ),
           ),
         ),
-        const Positioned.fill( 
-          child: Align (
-            alignment: Alignment.center,
-            child: const Text('hi'),
+        Positioned.fill(           
+          child: Padding(
+          padding: EdgeInsets.only(top: 15),
+          child: ListView.builder(
+                itemCount: entries_list.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Container(
+                      padding: EdgeInsets.all(100),
+                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Text(entries_list[index].key),
+                    ),
+                  );
+                },
           )
-           //      ListView.builder(
-          //       itemCount: grouped_postings.length,
-          //       itemBuilder: (context, index) {
-          //         return ListTile(
-          //           title: Container(
-          //             padding: EdgeInsets.all(12),
-          //             margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-          //             decoration: BoxDecoration(
-          //               color: Colors.white,
-          //               borderRadius: BorderRadius.circular(20),
-          //             ),
-          //             child: Text(grouped_postings[index]?.isNotEmpty ?? false ? grouped_postings[index]![0]['name'] : ''),
-          //           ),
-          //         );
-          //       },
-          // )
-        )],
+        )
+        )
+        ],
           ),
           );
   }
