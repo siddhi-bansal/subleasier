@@ -39,8 +39,9 @@ class _PostingsBoardState extends State<PostingsBoard> {
 
   Widget build(BuildContext context) {
     Map<String, List<Map<String, dynamic>>> grouped_postings = group_by_location(all_postings);
+    // grouped_postings: {Moontower: [all postings with Moontower], 2400 Nueces: [all postings with 2400 Nueces]}
     final entries_list = grouped_postings.entries.toList();
-    // print(grouped_postings); // for debugging
+    // entries_list: [MapEntry(Moontower: []), MapEntry(2400 Nueces: [])]
     return Scaffold(
         extendBodyBehindAppBar: true,
         appBar: AppBar(
@@ -88,18 +89,49 @@ class _PostingsBoardState extends State<PostingsBoard> {
           child: ListView.builder(
                 itemCount: entries_list.length,
                 itemBuilder: (context, index) {
+                  final curr_postings = entries_list[index].value;
                   return ListTile(
                     title: Container(
-                      padding: EdgeInsets.all(100),
+                      // padding: EdgeInsets.only(top: 10, left: 15),
                       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
                       ),
-                      child: Text(entries_list[index].key),
+                      child: Column (
+                        children: [
+                          Text(entries_list[index].key, style: TextStyle(fontSize: 20)),
+                          // Column(
+                          //   crossAxisAlignment: CrossAxisAlignment.start,
+                          //   children: curr_postings.map((posting) {
+                          //     return Text(posting['email']); // Replace with your desired widget
+                          //   }).toList(),
+                          // ),
+                          SizedBox(
+                            height: 170,
+                            child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount: curr_postings.length,
+                            itemBuilder: (curr_context, curr_index) {
+                              final posting = curr_postings[curr_index];
+                              return Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(posting['name']),
+                              );
+                            }))
+                          // ListView.builder(
+                          //   itemCount: curr_postings.length,
+                          //   itemBuilder: (curr_context, curr_index) {
+                          //     return Text('hi');
+                          //   }
+                          //   )
+                            ]
+                            )
                     ),
                   );
-                },
+                }
           )
         )
         )
