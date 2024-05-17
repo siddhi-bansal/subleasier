@@ -95,7 +95,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
                   return ListTile(
                     title: Container(
                       // padding: EdgeInsets.only(top: 10, left: 15),
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      margin: EdgeInsets.symmetric(vertical: 10, horizontal: 15),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
                         color: Colors.white,
