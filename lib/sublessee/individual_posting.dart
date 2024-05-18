@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
 class IndividualPosting extends StatelessWidget {
+  final Map<String, dynamic> posting;
+  IndividualPosting({required this.posting});
   @override
   Widget build(BuildContext context) {
+    // print('hi i can print here!');
+    // print('name of sublessee: ${posting['name']}');
+    // TODO: get name, sex, price, etc here using posting and 
+    // display that on the screen
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
