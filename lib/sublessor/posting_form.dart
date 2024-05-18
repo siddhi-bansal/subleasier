@@ -22,18 +22,21 @@ String _additional_info = '';
 int _monthly_price = 0;
 bool image_error = false; // true if user submits form with 0 images
 final List<String> _sexList = ['Male', 'Female'];
-final List<String> _locationList = ['Moontower', 'Lark', '2400 Nueces', 'Inspire'];
+final List<String> _locationList = [
+  'Moontower',
+  'Lark',
+  '2400 Nueces',
+  'Inspire'
+];
 List<File> _images = [];
 
 class SublessorForm extends StatefulWidget {
   @override
-  
   _SublessorFormState createState() => _SublessorFormState();
 }
 
 class _SublessorFormState extends State<SublessorForm> {
   @override
-
   void set_image_error_true() {
     setState(() {
       image_error = true;
@@ -162,9 +165,9 @@ class _SublessorFormState extends State<SublessorForm> {
                               return null; // Return null if the email is valid
                             },
                             onSaved: (value) {
-                               setState(() {
-                              _email = value!; // Save the entered email
-                               });
+                              setState(() {
+                                _email = value!; // Save the entered email
+                              });
                             },
                           ),
                           const SizedBox(height: 10.0),
@@ -220,9 +223,10 @@ class _SublessorFormState extends State<SublessorForm> {
                               }
                             },
                             onSaved: (value) {
-                               setState(() {
-                                _monthly_price = int.tryParse(value!) ?? 0; // Save the entered monthly price
-                               });
+                              setState(() {
+                                _monthly_price = int.tryParse(value!) ??
+                                    0; // Save the entered monthly price
+                              });
                             },
                           ),
 
@@ -269,14 +273,15 @@ class _SublessorFormState extends State<SublessorForm> {
                               return null; // Return null if the name is valid
                             },
                             onSaved: (value) {
-                               setState(() {
-                                _additional_info = value!; // Save the entered name
-                               });
+                              setState(() {
+                                _additional_info =
+                                    value!; // Save the entered name
+                              });
                             },
                           ),
                           const SizedBox(height: 15.0),
                           ElevatedButton(
-                            onPressed:getImages,
+                            onPressed: getImages,
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color.fromARGB(120, 255, 115, 0)),
@@ -294,7 +299,13 @@ class _SublessorFormState extends State<SublessorForm> {
                               style: TextStyle(color: Colors.white),
                             ),
                           ),
-                          Padding(padding: const EdgeInsets.all(5), child: Text('Please upload at least one image', style: TextStyle(color: image_error ? Colors.red : Colors.black))),
+                          Padding(
+                              padding: const EdgeInsets.all(5),
+                              child: Text('Please upload at least one image',
+                                  style: TextStyle(
+                                      color: image_error
+                                          ? Colors.red
+                                          : Colors.black))),
                           const SizedBox(height: 15.0),
                           // const Center(child: Text('About Your Sublessee', style: TextStyle(fontSize: 19, color: Colors.black))),
                           DropdownButtonFormField<String>(
@@ -331,7 +342,17 @@ class _SublessorFormState extends State<SublessorForm> {
                               onPressed: () {
                                 // print('yas');
                                 _formKey.currentState!.save();
-                                submitForm(context, _name, _email, _sex, _monthly_price, _location, _additional_info, _sublessee_preferred_sex, _images, set_image_error_true);
+                                submitForm(
+                                    context,
+                                    _name,
+                                    _email,
+                                    _sex,
+                                    _monthly_price,
+                                    _location,
+                                    _additional_info,
+                                    _sublessee_preferred_sex,
+                                    _images,
+                                    set_image_error_true);
                               },
                               child: const Text('Submit',
                                   style: TextStyle(color: Colors.white))),
@@ -350,19 +371,19 @@ class _SublessorFormState extends State<SublessorForm> {
 
 // This method will upload the images stored as Files to Firebase Storage and return their corresonding URLs
 // in Storage
-Future<List<String>> upload_images_to_fb_storage(List<File> images, String uuid) async {
+Future<List<String>> upload_images_to_fb_storage(
+    List<File> images, String uuid) async {
   List<String> image_urls = [];
 
   try {
     for (int i = 0; i < images.length; i++) {
-
       final storageRef = FirebaseStorage.instance.ref();
       final uploadTask = storageRef.child('$uuid/image_$i').putFile(images[i]);
       await uploadTask;
       String url = await storageRef.child('$uuid/image_$i').getDownloadURL();
       image_urls.add(url);
     }
-  } catch(e) {
+  } catch (e) {
     print('error: $e');
   }
 
@@ -372,7 +393,17 @@ Future<List<String>> upload_images_to_fb_storage(List<File> images, String uuid)
 /*
 This method should send data to Firestore. Then, navigate to posting_success.
 */
-void submitForm(BuildContext context, String name, String email, String? sex, int price, String? location, String additional_info, String? sublessee_preferred_sex, List<File> images, Function set_image_error_true) async {
+void submitForm(
+    BuildContext context,
+    String name,
+    String email,
+    String? sex,
+    int price,
+    String? location,
+    String additional_info,
+    String? sublessee_preferred_sex,
+    List<File> images,
+    Function set_image_error_true) async {
   if (images.isEmpty) {
     set_image_error_true();
     return null;
@@ -380,14 +411,24 @@ void submitForm(BuildContext context, String name, String email, String? sex, in
   if (_formKey.currentState!.validate()) {
     final db = FirestoreService().db;
     String curr_uuid = uuid.v4();
-    List<String> image_urls = await upload_images_to_fb_storage(images, curr_uuid);
+    List<String> image_urls =
+        await upload_images_to_fb_storage(images, curr_uuid);
 
-    final posting = {'name': name, 'email': email, 'sublessor sex': sex, 'price': price, 'location': location, 'additional info': additional_info, 'preferred sublessee sex': sublessee_preferred_sex, 'images': image_urls};
-    db.collection('postings').add(posting).then((DocumentReference doc) =>
-      print('Apartment added with ID: ${doc.id}'));
-    
+    final posting = {
+      'name': name,
+      'email': email,
+      'sublessor sex': sex,
+      'price': price,
+      'location': location,
+      'additional info': additional_info,
+      'preferred sublessee sex': sublessee_preferred_sex,
+      'images': image_urls
+    };
+    db.collection('postings').add(posting).then(
+        (DocumentReference doc) => print('Apartment added with ID: ${doc.id}'));
+
     print('Form submitted!');
-    
+
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => PostingSuccess()),
@@ -399,7 +440,6 @@ void submitForm(BuildContext context, String name, String email, String? sex, in
     //     print("${doc.id} => ${doc.data()}");
     //   }
     // });
-
   }
   // else, Flutter will automatically handle error.
 }
