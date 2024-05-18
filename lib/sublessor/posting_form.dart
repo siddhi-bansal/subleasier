@@ -37,7 +37,7 @@ class SublessorForm extends StatefulWidget {
 
 class _SublessorFormState extends State<SublessorForm> {
   @override
-  void set_image_error_true() {
+  void _set_image_error_true() {
     setState(() {
       image_error = true;
     });
@@ -336,7 +336,7 @@ class _SublessorFormState extends State<SublessorForm> {
                           const SizedBox(height: 20.0),
                           ElevatedButton(
                               style: ButtonStyle(
-                                  backgroundColor: MaterialStateProperty.all<
+                                  backgroundColor: WidgetStateProperty.all<
                                           Color>(
                                       const Color.fromARGB(120, 255, 115, 0))),
                               onPressed: () {
@@ -352,7 +352,7 @@ class _SublessorFormState extends State<SublessorForm> {
                                     _additional_info,
                                     _sublessee_preferred_sex,
                                     _images,
-                                    set_image_error_true);
+                                    _set_image_error_true);
                               },
                               child: const Text('Submit',
                                   style: TextStyle(color: Colors.white))),

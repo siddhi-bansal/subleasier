@@ -71,9 +71,9 @@ class PostingSuccess extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 60.0),
                         child: ElevatedButton(
                             style: ButtonStyle(
-                              backgroundColor: MaterialStateProperty.all<Color>(
+                              backgroundColor: WidgetStateProperty.all<Color>(
                                   const Color.fromARGB(120, 255, 115, 0)),
-                              minimumSize: MaterialStateProperty.all<Size>(
+                              minimumSize: WidgetStateProperty.all<Size>(
                                   const Size(10, 40)),
                             ),
                             onPressed: () {

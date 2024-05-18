@@ -19,7 +19,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
     });
   }
 
-  Map<String, List<Map<String, dynamic>>> group_by_location(
+  Map<String, List<Map<String, dynamic>>> _group_by_location(
       List<Map<String, dynamic>> postings) {
     Map<String, List<Map<String, dynamic>>> groups = {};
     for (int i = 0; i < postings.length; i++) {
@@ -41,7 +41,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
 
   Widget build(BuildContext context) {
     Map<String, List<Map<String, dynamic>>> grouped_postings =
-        group_by_location(all_postings);
+        _group_by_location(all_postings);
     // grouped_postings: {Moontower: [all postings with Moontower], 2400 Nueces: [all postings with 2400 Nueces]}
     final entries_list = grouped_postings.entries.toList();
     // entries_list: [MapEntry(Moontower: []), MapEntry(2400 Nueces: [])]

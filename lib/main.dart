@@ -83,9 +83,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 110.0),
                 ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                         const Color.fromARGB(230, 191, 87, 0)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           20), // Set border radius to 0 for a rectangular button
@@ -117,9 +117,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 const SizedBox(height: 50.0),
                 ElevatedButton(
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all<Color>(
+                    backgroundColor: WidgetStateProperty.all<Color>(
                         const Color.fromARGB(230, 191, 87, 0)),
-                    shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                    shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
                           20), // Set border radius to 0 for a rectangular button
