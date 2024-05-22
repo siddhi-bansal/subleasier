@@ -27,5 +27,5 @@ I will use this README to track To-Dos and pending items for now.
 7. Test on Android (need to set up Android emulator, after which I need to test all the functionality on Android)
 8. Add Bathroom information to form and posting
 9. Add other option to dropdown, parse the input, and save to database
-11. Implement URL functionality for 'other' apartment option
-10. Look into how to make code production ready
+10. Implement URL functionality for 'other' apartment option
+11. Look into how to make code production ready
