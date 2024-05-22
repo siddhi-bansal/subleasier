@@ -413,7 +413,8 @@ void submitForm(
     String curr_uuid = uuid.v4();
     List<String> image_urls =
         await upload_images_to_fb_storage(images, curr_uuid);
-
+    // TODO: add apt_url, and also convert all keys to on word with _'s
+    // TODO: repopulate database once url implementation is done
     final posting = {
       'name': name,
       'email': email,
