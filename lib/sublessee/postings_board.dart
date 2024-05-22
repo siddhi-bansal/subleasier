@@ -20,15 +20,15 @@ class _PostingsBoardState extends State<PostingsBoard> {
     });
   }
 
-  Map<String, List<Map<String, dynamic>>> _group_by_location(
+  Map<String, List<Map<String, dynamic>>> _group_by_apt_name(
       List<Map<String, dynamic>> postings) {
     Map<String, List<Map<String, dynamic>>> groups = {};
     for (int i = 0; i < postings.length; i++) {
-      String location = postings[i]['location'];
-      if (!groups.containsKey(location)) {
-        groups[location] = [postings[i]];
+      String apt_name = postings[i]['apt_name'];
+      if (!groups.containsKey(apt_name)) {
+        groups[apt_name] = [postings[i]];
       } else {
-        groups[location]!.add(postings[i]);
+        groups[apt_name]!.add(postings[i]);
       }
     }
     return groups;
@@ -42,7 +42,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
 
   Widget build(BuildContext context) {
     Map<String, List<Map<String, dynamic>>> grouped_postings =
-        _group_by_location(all_postings);
+        _group_by_apt_name(all_postings);
     // grouped_postings: {Moontower: [all postings with Moontower], 2400 Nueces: [all postings with 2400 Nueces]}
     final entries_list = grouped_postings.entries.toList();
     // entries_list: [MapEntry(Moontower: []), MapEntry(2400 Nueces: [])]
@@ -111,8 +111,8 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                     padding: EdgeInsets.only(top: 15),
                                     child: TextButton(
                                       child: Text(entries_list[index].key, style: TextStyle(fontSize: 20, color: Colors.black)), 
-                                      onPressed: () => launch_url_for_apt("gmail.com"),
-                                      // TODO: replace "gmail.com" with curr_postings[0]['apt url'] when it is added to the posting form
+                                      onPressed: () => launch_url_for_apt(curr_postings[0]['apt_url']),
+                                       // curr_postings[0]['apt url']
                                     )),
                                 SizedBox(
                                     height: 220,

@@ -90,13 +90,13 @@ class IndividualPosting extends StatelessWidget {
                       Container(
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(left: 35, right: 35),
-                        child: Text('Preferred Sublessee Sex: ${posting['preferred sublessee sex']}')
+                        child: Text('Preferred Sublessee Sex: ${posting['preferred_sublessee_sex']}')
                       ),
                       SizedBox(height: 15),
                       Container(
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(left: 35, right: 35),
-                        child: Text('Additional Information: ${posting['additional info']}')
+                        child: Text('Additional Information: ${posting['additional_info']}')
                       ),
                       SizedBox(height: 30),
                       Text('About the Sublessor', style: TextStyle(fontSize: 20)),
@@ -104,7 +104,7 @@ class IndividualPosting extends StatelessWidget {
                       Container(
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(left: 35, right: 35),
-                        child: Text('Sublessor Sex: ${posting['sublessor sex']}')
+                        child: Text('Sublessor Sex: ${posting['sublessor_sex']}')
                       ),
                       SizedBox(height: 15),
                       Container(

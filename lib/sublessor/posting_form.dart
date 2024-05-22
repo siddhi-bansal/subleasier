@@ -17,17 +17,20 @@ String _name = '';
 String _email = '';
 String? _sex = 'Male';
 String? _sublessee_preferred_sex = 'Male';
-String? _location = 'Moontower';
+String? _apt_name = 'Moontower';
 String _additional_info = '';
 int _monthly_price = 0;
 bool image_error = false; // true if user submits form with 0 images
 final List<String> _sexList = ['Male', 'Female'];
-final List<String> _locationList = [
+final List<String> _aptNameList = [
   'Moontower',
   'Lark',
   '2400 Nueces',
-  'Inspire'
+  'Inspire',
+  'Other'
 ];
+Map<String, String> _apt_urls = {'Moontower': 'https://moontoweratx.com/', 'Lark': 'https://larkaustin.com/', '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments', 'Inspire': 'https://www.liveatinspireatx.com/', 'Other': 'www.google.com'};
+// TODO: URL for 'other' is currently a placeholder because we want the user to input this, but that functionality has not been implemented yet.
 List<File> _images = [];
 
 class SublessorForm extends StatefulWidget {
@@ -242,8 +245,8 @@ class _SublessorFormState extends State<SublessorForm> {
                                 ),
                               ),
                             ),
-                            value: _location,
-                            items: _locationList.map((String value) {
+                            value: _apt_name,
+                            items: _aptNameList.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -251,7 +254,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             }).toList(),
                             onChanged: (String? value) {
                               setState(() {
-                                _location = value;
+                                _apt_name = value;
                               });
                             },
                           ),
@@ -348,7 +351,8 @@ class _SublessorFormState extends State<SublessorForm> {
                                     _email,
                                     _sex,
                                     _monthly_price,
-                                    _location,
+                                    _apt_name,
+                                    _apt_urls[_apt_name],
                                     _additional_info,
                                     _sublessee_preferred_sex,
                                     _images,
@@ -399,7 +403,8 @@ void submitForm(
     String email,
     String? sex,
     int price,
-    String? location,
+    String? apt_name,
+    String? apt_url,
     String additional_info,
     String? sublessee_preferred_sex,
     List<File> images,
@@ -413,16 +418,15 @@ void submitForm(
     String curr_uuid = uuid.v4();
     List<String> image_urls =
         await upload_images_to_fb_storage(images, curr_uuid);
-    // TODO: add apt_url, and also convert all keys to on word with _'s
-    // TODO: repopulate database once url implementation is done
     final posting = {
       'name': name,
       'email': email,
-      'sublessor sex': sex,
+      'sublessor_sex': sex,
       'price': price,
-      'location': location,
-      'additional info': additional_info,
-      'preferred sublessee sex': sublessee_preferred_sex,
+      'apt_name': apt_name,
+      'apt_url': apt_url,
+      'additional_info': additional_info,
+      'preferred_sublessee_sex': sublessee_preferred_sex,
       'images': image_urls
     };
     db.collection('postings').add(posting).then(
@@ -434,13 +438,6 @@ void submitForm(
       context,
       MaterialPageRoute(builder: (context) => PostingSuccess()),
     );
-
-    // print('Curr db storage:');
-    // await db.collection("users").get().then((event) {
-    //   for (var doc in event.docs) {
-    //     print("${doc.id} => ${doc.data()}");
-    //   }
-    // });
   }
   // else, Flutter will automatically handle error.
 }
