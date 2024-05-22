@@ -26,6 +26,6 @@ I will use this README to track To-Dos and pending items for now.
 6. Replace Firebase Frequent Polling with Realtime-Updates (right now, I query to Firebase everytime the Postings Listings screen is built. ideally, I want to only query to Firebase if any changes have been made to the database.)
 7. Test on Android (need to set up Android emulator, after which I need to test all the functionality on Android)
 8. Add Bathroom information to form and posting
-9. Add links to apartments (do this with a dictionary)
-10. Add other option to dropdown, parse the input, and save to database
-11. Look into how to make code production ready
+9. Add other option to dropdown, parse the input, and save to database
+11. Implement URL functionality for 'other' apartment option
+10. Look into how to make code production ready
