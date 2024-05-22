@@ -65,7 +65,7 @@ class IndividualPosting extends StatelessWidget {
                         itemCount: posting['images'].length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+                            padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 7),
                             child: Image.network(
                             posting['images'][index],
                             fit: BoxFit.cover,
@@ -78,7 +78,7 @@ class IndividualPosting extends StatelessWidget {
                         const Text('Swipe to see more images'),
                         const SizedBox(height: 10),
                       ],
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 7),
                       const Text('About the Apartment', style: TextStyle(fontSize: 20)),
                       const SizedBox(height: 20),
                       Container(
@@ -91,6 +91,12 @@ class IndividualPosting extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Preferred Sublessee Sex: ${posting['preferred_sublessee_sex']}')
+                      ),
+                      const SizedBox(height: 15),
+                      Container(
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.only(left: 35, right: 35),
+                        child: Text('Bathroom Type: ${posting['bathroom_type']}')
                       ),
                       const SizedBox(height: 15),
                       Container(
@@ -118,7 +124,7 @@ class IndividualPosting extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Email: ${posting['email']}')
                       ),
-                      const SizedBox(height: 25), 
+                      const SizedBox(height: 20), 
                       ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all<
@@ -129,8 +135,7 @@ class IndividualPosting extends StatelessWidget {
                           sendEmail(posting['email']);
                         },
                         child: const Text('Email Sublessor', style: TextStyle(color: Colors.white)),
-                      ),
-                      const SizedBox(height: 30)
+                      )
                       ],
                     )
                 )
