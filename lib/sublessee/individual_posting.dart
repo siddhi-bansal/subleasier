@@ -155,8 +155,6 @@ Future<void> send_email(String email_address) async {
     scheme: 'mailto',
     path: email_address,
   );
-  launchUrl(email_launch_uri);
-
   try {
     await launchUrl(email_launch_uri);
     // NOTE: email doesn't launch on iOS because Mail not installed

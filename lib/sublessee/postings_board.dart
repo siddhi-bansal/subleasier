@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:subleasier/sublessee/individual_posting.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../firestore_service.dart';
 import '../sublessor/posting_form.dart';
 
@@ -108,8 +109,11 @@ class _PostingsBoardState extends State<PostingsBoard> {
                               child: Column(children: [
                                 Padding(
                                     padding: EdgeInsets.only(top: 15),
-                                    child: Text(entries_list[index].key,
-                                        style: TextStyle(fontSize: 20))),
+                                    child: TextButton(
+                                      child: Text(entries_list[index].key, style: TextStyle(fontSize: 20, color: Colors.black)), 
+                                      onPressed: () => launch_url_for_apt("gmail.com"),
+                                      // TODO: replace "gmail.com" with curr_postings[0]['apt url'] when it is added to the posting form
+                                    )),
                                 SizedBox(
                                     height: 220,
                                     // second ListView.builder is for iterating through each posting within the current apartment
@@ -200,4 +204,20 @@ void navigate_to_individual_posting(BuildContext context, Map<String, dynamic> p
       context,
       MaterialPageRoute(builder: (context) => IndividualPosting(posting: posting)),
     );
+}
+void launch_url_for_apt(String url) async {
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    url = 'https://' + url;
+  }
+  try {
+    Uri url_uri = Uri.parse(url);
+    if (await canLaunchUrl(url_uri)) {
+        await launchUrl(url_uri);
+      } else {
+        print("Can't launch URL: $url");
+      }
+  } catch(e) {
+    print("Error in launching URL: $e");
+  }
+  
 }
