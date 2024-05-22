@@ -18,6 +18,7 @@ String _email = '';
 String? _sex = 'Male';
 String? _sublesseePreferredSex = 'Male';
 String? _aptName = 'Moontower';
+String? _bathroomType = 'Private';
 String _additionalInfo = '';
 int _monthlyPrice = 0;
 bool _imageError = false; // true if user submits form with 0 images
@@ -29,6 +30,7 @@ final List<String> _aptNameList = [
   'Inspire',
   'Other'
 ];
+final List<String> _bathroomTypeList = ['Private', 'Shared'];
 Map<String, String> _aptUrls = {'Moontower': 'https://moontoweratx.com/', 'Lark': 'https://larkaustin.com/', '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments', 'Inspire': 'https://www.liveatinspireatx.com/', 'Other': 'www.google.com'};
 // TODO: URL for 'other' is currently a placeholder because we want the user to input this, but that functionality has not been implemented yet.
 List<File> _images = [];
@@ -230,11 +232,14 @@ class _SublessorFormState extends State<SublessorForm> {
                               });
                             },
                           ),
-
-                          const SizedBox(height: 10.0),
-                          DropdownButtonFormField<String>(
+                          const SizedBox(height: 10),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Expanded(
+                                child: DropdownButtonFormField<String>(
                             decoration: const InputDecoration(
-                              labelText: 'Location of Apartment', // Hint text
+                              labelText: 'Location', // Hint text
                               labelStyle:
                                   TextStyle(color: Colors.black, fontSize: 15),
                               focusedBorder: UnderlineInputBorder(
@@ -255,8 +260,36 @@ class _SublessorFormState extends State<SublessorForm> {
                                 _aptName = value;
                               });
                             },
+                          )),
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: DropdownButtonFormField<String>(
+                            decoration: const InputDecoration(
+                              labelText: 'Bathroom Type', // Hint text
+                              labelStyle:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color.fromARGB(237, 193, 90, 5),
+                                ),
+                              ),
+                            ),
+                            value: _bathroomType,
+                            items: _bathroomTypeList.map((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                            onChanged: (String? value) {
+                              setState(() {
+                                _bathroomType = value;
+                              });
+                            },
+                          )),
+                            ]
                           ),
-                          const SizedBox(height: 10),
+                          const SizedBox(height: 15.0),
                           TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Additional Info about Apartment',
@@ -351,6 +384,7 @@ class _SublessorFormState extends State<SublessorForm> {
                                     _monthlyPrice,
                                     _aptName,
                                     _aptUrls[_aptName],
+                                    _bathroomType,
                                     _additionalInfo,
                                     _sublesseePreferredSex,
                                     _images,
@@ -403,6 +437,7 @@ void submitForm(
     int price,
     String? aptName,
     String? aptUrl,
+    String? bathroomType,
     String additionalInfo,
     String? sublesseePreferredSex,
     List<File> images,
@@ -423,6 +458,7 @@ void submitForm(
       'price': price,
       'apt_name': aptName,
       'apt_url': aptUrl,
+      'bathroom_type': bathroomType,
       'additional_info': additionalInfo,
       'preferred_sublessee_sex': sublesseePreferredSex,
       'images': imageUrls
