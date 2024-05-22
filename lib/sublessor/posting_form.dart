@@ -16,11 +16,11 @@ final picker = ImagePicker();
 String _name = '';
 String _email = '';
 String? _sex = 'Male';
-String? _sublessee_preferred_sex = 'Male';
-String? _apt_name = 'Moontower';
-String _additional_info = '';
-int _monthly_price = 0;
-bool image_error = false; // true if user submits form with 0 images
+String? _sublesseePreferredSex = 'Male';
+String? _aptName = 'Moontower';
+String _additionalInfo = '';
+int _monthlyPrice = 0;
+bool _imageError = false; // true if user submits form with 0 images
 final List<String> _sexList = ['Male', 'Female'];
 final List<String> _aptNameList = [
   'Moontower',
@@ -29,7 +29,7 @@ final List<String> _aptNameList = [
   'Inspire',
   'Other'
 ];
-Map<String, String> _apt_urls = {'Moontower': 'https://moontoweratx.com/', 'Lark': 'https://larkaustin.com/', '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments', 'Inspire': 'https://www.liveatinspireatx.com/', 'Other': 'www.google.com'};
+Map<String, String> _aptUrls = {'Moontower': 'https://moontoweratx.com/', 'Lark': 'https://larkaustin.com/', '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments', 'Inspire': 'https://www.liveatinspireatx.com/', 'Other': 'www.google.com'};
 // TODO: URL for 'other' is currently a placeholder because we want the user to input this, but that functionality has not been implemented yet.
 List<File> _images = [];
 
@@ -39,10 +39,9 @@ class SublessorForm extends StatefulWidget {
 }
 
 class _SublessorFormState extends State<SublessorForm> {
-  @override
-  void _set_image_error_true() {
+  void setImageErrorTrue() {
     setState(() {
-      image_error = true;
+      _imageError = true;
     });
   }
 
@@ -58,6 +57,7 @@ class _SublessorFormState extends State<SublessorForm> {
     }
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -118,8 +118,6 @@ class _SublessorFormState extends State<SublessorForm> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          // const Center(child: Text('About You', style: TextStyle(fontSize: 19, color: Colors.black))),
-                          // const SizedBox(height: 6),
                           TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Your Name',
@@ -135,7 +133,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             style: const TextStyle(fontSize: 15.0),
                             validator: (value) {
                               // Validation function for the name field
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value.isEmpty) {
                                 return 'Please enter your name.'; // Return an error message if the name is empty
                               }
                               return null; // Return null if the name is valid
@@ -162,7 +160,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             style: const TextStyle(fontSize: 15.0),
                             validator: (value) {
                               // Validation function for the email field
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value.isEmpty) {
                                 return 'Please enter your email.'; // Return an error message if the email is empty
                               }
                               return null; // Return null if the email is valid
@@ -219,7 +217,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             style: const TextStyle(fontSize: 15.0),
                             validator: (value) {
                               // Validation function for the monthly price field
-                              if (value == null || value!.isEmpty) {
+                              if (value == null || value.isEmpty) {
                                 return 'Please enter your monthly price as an integer.'; // Return an error message if the monthly price is empty
                               } else {
                                 return null; // Return null if the name is valid
@@ -227,7 +225,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             },
                             onSaved: (value) {
                               setState(() {
-                                _monthly_price = int.tryParse(value!) ??
+                                _monthlyPrice = int.tryParse(value!) ??
                                     0; // Save the entered monthly price
                               });
                             },
@@ -245,7 +243,7 @@ class _SublessorFormState extends State<SublessorForm> {
                                 ),
                               ),
                             ),
-                            value: _apt_name,
+                            value: _aptName,
                             items: _aptNameList.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -254,7 +252,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             }).toList(),
                             onChanged: (String? value) {
                               setState(() {
-                                _apt_name = value;
+                                _aptName = value;
                               });
                             },
                           ),
@@ -277,7 +275,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             },
                             onSaved: (value) {
                               setState(() {
-                                _additional_info =
+                                _additionalInfo =
                                     value!; // Save the entered name
                               });
                             },
@@ -306,7 +304,7 @@ class _SublessorFormState extends State<SublessorForm> {
                               padding: const EdgeInsets.all(5),
                               child: Text('Please upload at least one image',
                                   style: TextStyle(
-                                      color: image_error
+                                      color: _imageError
                                           ? Colors.red
                                           : Colors.black))),
                           const SizedBox(height: 15.0),
@@ -323,7 +321,7 @@ class _SublessorFormState extends State<SublessorForm> {
                                 ),
                               ),
                             ),
-                            value: _sublessee_preferred_sex,
+                            value: _sublesseePreferredSex,
                             items: _sexList.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
@@ -332,7 +330,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             }).toList(),
                             onChanged: (String? value) {
                               setState(() {
-                                _sublessee_preferred_sex = value;
+                                _sublesseePreferredSex = value;
                               });
                             },
                           ),
@@ -350,13 +348,13 @@ class _SublessorFormState extends State<SublessorForm> {
                                     _name,
                                     _email,
                                     _sex,
-                                    _monthly_price,
-                                    _apt_name,
-                                    _apt_urls[_apt_name],
-                                    _additional_info,
-                                    _sublessee_preferred_sex,
+                                    _monthlyPrice,
+                                    _aptName,
+                                    _aptUrls[_aptName],
+                                    _additionalInfo,
+                                    _sublesseePreferredSex,
                                     _images,
-                                    _set_image_error_true);
+                                    setImageErrorTrue);
                               },
                               child: const Text('Submit',
                                   style: TextStyle(color: Colors.white))),
@@ -375,9 +373,9 @@ class _SublessorFormState extends State<SublessorForm> {
 
 // This method will upload the images stored as Files to Firebase Storage and return their corresonding URLs
 // in Storage
-Future<List<String>> upload_images_to_fb_storage(
+Future<List<String>> uploadImagesToFirebaseStorage(
     List<File> images, String uuid) async {
-  List<String> image_urls = [];
+  List<String> imageUrls = [];
 
   try {
     for (int i = 0; i < images.length; i++) {
@@ -385,13 +383,13 @@ Future<List<String>> upload_images_to_fb_storage(
       final uploadTask = storageRef.child('$uuid/image_$i').putFile(images[i]);
       await uploadTask;
       String url = await storageRef.child('$uuid/image_$i').getDownloadURL();
-      image_urls.add(url);
+      imageUrls.add(url);
     }
   } catch (e) {
     print('error: $e');
   }
 
-  return image_urls;
+  return imageUrls;
 }
 
 /*
@@ -403,31 +401,31 @@ void submitForm(
     String email,
     String? sex,
     int price,
-    String? apt_name,
-    String? apt_url,
-    String additional_info,
-    String? sublessee_preferred_sex,
+    String? aptName,
+    String? aptUrl,
+    String additionalInfo,
+    String? sublesseePreferredSex,
     List<File> images,
-    Function set_image_error_true) async {
+    Function setImageErrorTrue) async {
   if (images.isEmpty) {
-    set_image_error_true();
+    setImageErrorTrue();
     return null;
   }
   if (_formKey.currentState!.validate()) {
     final db = FirestoreService().db;
-    String curr_uuid = uuid.v4();
-    List<String> image_urls =
-        await upload_images_to_fb_storage(images, curr_uuid);
+    String currUuid = uuid.v4();
+    List<String> imageUrls =
+        await uploadImagesToFirebaseStorage(images, currUuid);
     final posting = {
       'name': name,
       'email': email,
       'sublessor_sex': sex,
       'price': price,
-      'apt_name': apt_name,
-      'apt_url': apt_url,
-      'additional_info': additional_info,
-      'preferred_sublessee_sex': sublessee_preferred_sex,
-      'images': image_urls
+      'apt_name': aptName,
+      'apt_url': aptUrl,
+      'additional_info': additionalInfo,
+      'preferred_sublessee_sex': sublesseePreferredSex,
+      'images': imageUrls
     };
     db.collection('postings').add(posting).then(
         (DocumentReference doc) => print('Apartment added with ID: ${doc.id}'));
@@ -436,7 +434,7 @@ void submitForm(
 
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => PostingSuccess()),
+      MaterialPageRoute(builder: (context) => PostingSuccess())
     );
   }
   // else, Flutter will automatically handle error.

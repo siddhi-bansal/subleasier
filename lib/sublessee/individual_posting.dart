@@ -3,7 +3,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class IndividualPosting extends StatelessWidget {
   final Map<String, dynamic> posting;
-  IndividualPosting({required this.posting});
+  const IndividualPosting({required this.posting});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -58,14 +58,14 @@ class IndividualPosting extends StatelessWidget {
                 child: SingleChildScrollView (
                   child: Column(
                     children: [
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       SizedBox (
                         height: 200,
                         child: PageView.builder(
                         itemCount: posting['images'].length,
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
+                            padding: const EdgeInsets.only(top: 20, left: 20, right: 20, bottom: 10),
                             child: Image.network(
                             posting['images'][index],
                             fit: BoxFit.cover,
@@ -75,50 +75,50 @@ class IndividualPosting extends StatelessWidget {
                       ),
                       if (posting['images'].length > 1)
                       ...[
-                        Text('Swipe to see more images'),
-                        SizedBox(height: 10),
+                        const Text('Swipe to see more images'),
+                        const SizedBox(height: 10),
                       ],
-                      SizedBox(height: 15),
-                      Text('About the Apartment', style: TextStyle(fontSize: 20)),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 15),
+                      const Text('About the Apartment', style: TextStyle(fontSize: 20)),
+                      const SizedBox(height: 20),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 35, right: 35),
+                        padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Monthly Price: \$${posting['price']}')
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 35, right: 35),
+                        padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Preferred Sublessee Sex: ${posting['preferred_sublessee_sex']}')
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 35, right: 35),
+                        padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Additional Information: ${posting['additional_info']}')
                       ),
-                      SizedBox(height: 30),
-                      Text('About the Sublessor', style: TextStyle(fontSize: 20)),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 30),
+                      const Text('About the Sublessor', style: TextStyle(fontSize: 20)),
+                      const SizedBox(height: 20),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 35, right: 35),
+                        padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Sublessor Sex: ${posting['sublessor_sex']}')
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 35, right: 35),
+                        padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Name: ${posting['name']}')
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       Container(
                         alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(left: 35, right: 35),
+                        padding: const EdgeInsets.only(left: 35, right: 35),
                         child: Text('Email: ${posting['email']}')
                       ),
-                      SizedBox(height: 25), 
+                      const SizedBox(height: 25), 
                       ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all<
@@ -126,11 +126,11 @@ class IndividualPosting extends StatelessWidget {
                                       const Color.fromARGB(120, 255, 115, 0))
                         ),
                         onPressed: () {
-                          send_email(posting['email']);
+                          sendEmail(posting['email']);
                         },
-                        child: Text('Email Sublessor', style: TextStyle(color: Colors.white)),
+                        child: const Text('Email Sublessor', style: TextStyle(color: Colors.white)),
                       ),
-                      SizedBox(height: 30)
+                      const SizedBox(height: 30)
                       ],
                     )
                 )
@@ -150,13 +150,13 @@ String? encodeQueryParameters(Map<String, String> params) {
 }
 
 // TODO: need to test if sending email actually works
-Future<void> send_email(String email_address) async {
-  final Uri email_launch_uri = Uri(
+Future<void> sendEmail(String emailAddress) async {
+  final Uri emailLaunchUri = Uri(
     scheme: 'mailto',
-    path: email_address,
+    path: emailAddress,
   );
   try {
-    await launchUrl(email_launch_uri);
+    await launchUrl(emailLaunchUri);
     // NOTE: email doesn't launch on iOS because Mail not installed
     // on iOS emulator. The button has not been tested yet.
   } catch(e) {

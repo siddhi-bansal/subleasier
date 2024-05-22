@@ -28,5 +28,4 @@ I will use this README to track To-Dos and pending items for now.
 8. Add Bathroom information to form and posting
 9. Add links to apartments (do this with a dictionary)
 10. Add other option to dropdown, parse the input, and save to database
-11. Refactor code to use camel case instead of snake case
 11. Look into how to make code production ready

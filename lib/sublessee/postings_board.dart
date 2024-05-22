@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../firestore_service.dart';
 import '../sublessor/posting_form.dart';
 
-List<Map<String, dynamic>> all_postings = [];
+List<Map<String, dynamic>> allPostings = [];
 
 class PostingsBoard extends StatefulWidget {
   @override
@@ -14,21 +14,21 @@ class PostingsBoard extends StatefulWidget {
 
 class _PostingsBoardState extends State<PostingsBoard> {
   Future<void> loadPostings() async {
-    List<Map<String, dynamic>> postings = await get_all_postings_from_db();
+    List<Map<String, dynamic>> postings = await getAllPostingsFromFirestore();
     setState(() {
-      all_postings = postings;
+      allPostings = postings;
     });
   }
 
-  Map<String, List<Map<String, dynamic>>> _group_by_apt_name(
+  Map<String, List<Map<String, dynamic>>> _groupByAptName(
       List<Map<String, dynamic>> postings) {
     Map<String, List<Map<String, dynamic>>> groups = {};
     for (int i = 0; i < postings.length; i++) {
-      String apt_name = postings[i]['apt_name'];
-      if (!groups.containsKey(apt_name)) {
-        groups[apt_name] = [postings[i]];
+      String aptName = postings[i]['apt_name'];
+      if (!groups.containsKey(aptName)) {
+        groups[aptName] = [postings[i]];
       } else {
-        groups[apt_name]!.add(postings[i]);
+        groups[aptName]!.add(postings[i]);
       }
     }
     return groups;
@@ -40,11 +40,12 @@ class _PostingsBoardState extends State<PostingsBoard> {
     loadPostings();
   }
 
+  @override
   Widget build(BuildContext context) {
-    Map<String, List<Map<String, dynamic>>> grouped_postings =
-        _group_by_apt_name(all_postings);
+    Map<String, List<Map<String, dynamic>>> groupedPostings =
+        _groupByAptName(allPostings);
     // grouped_postings: {Moontower: [all postings with Moontower], 2400 Nueces: [all postings with 2400 Nueces]}
-    final entries_list = grouped_postings.entries.toList();
+    final entriesList = groupedPostings.entries.toList();
     // entries_list: [MapEntry(Moontower: []), MapEntry(2400 Nueces: [])]
     return Scaffold(
       extendBodyBehindAppBar: true,
@@ -78,7 +79,6 @@ class _PostingsBoardState extends State<PostingsBoard> {
               image: DecorationImage(
                 image: const AssetImage('images/tower.jpg'),
                 fit: BoxFit.cover,
-                // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
                 alignment: const Alignment(0.05, 0),
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.8),
@@ -89,13 +89,13 @@ class _PostingsBoardState extends State<PostingsBoard> {
           ),
           Positioned.fill(
               child: Padding(
-                  padding: EdgeInsets.only(top: 15),
+                  padding: const EdgeInsets.only(top: 15),
                   // first ListView.builder is to iterate through the apartments
                   // TODO: maybe change first ListView.builder into .map because the length isn't as much?
                   child: ListView.builder(
-                      itemCount: entries_list.length,
+                      itemCount: entriesList.length,
                       itemBuilder: (context, index) {
-                        final curr_postings = entries_list[index].value;
+                        final curr_postings = entriesList[index].value;
                         return ListTile(
                           title: Container(
                               // padding: EdgeInsets.only(top: 10, left: 15),
@@ -108,11 +108,10 @@ class _PostingsBoardState extends State<PostingsBoard> {
                               ),
                               child: Column(children: [
                                 Padding(
-                                    padding: EdgeInsets.only(top: 15),
+                                    padding: const EdgeInsets.only(top: 15),
                                     child: TextButton(
-                                      child: Text(entries_list[index].key, style: TextStyle(fontSize: 20, color: Colors.black)), 
-                                      onPressed: () => launch_url_for_apt(curr_postings[0]['apt_url']),
-                                       // curr_postings[0]['apt url']
+                                      child: Text(entriesList[index].key, style: const TextStyle(fontSize: 20, color: Colors.black)), 
+                                      onPressed: () => launchUrlForApt(curr_postings[0]['apt_url']),
                                     )),
                                 SizedBox(
                                     height: 220,
@@ -122,12 +121,12 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                         scrollDirection: Axis.horizontal,
                                         itemCount: curr_postings.length,
                                         itemBuilder:
-                                            (curr_context, curr_index) {
+                                            (currContext, currIndex) {
                                           final posting =
-                                              curr_postings[curr_index];
+                                              curr_postings[currIndex];
                                           return ElevatedButton (
                                             onPressed: () {
-                                              navigate_to_individual_posting(context, posting);
+                                              navigateToIndividualPosting(context, posting);
                                             },
                                             style: ButtonStyle(
                                               backgroundColor:  WidgetStateProperty.all<Color>(Colors.transparent),
@@ -142,7 +141,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                             child: Column(
                                             // mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              SizedBox(height: 20),
+                                              const SizedBox(height: 20),
                                               Center(
                                                   child: Padding(
                                                 padding: const EdgeInsets.only(
@@ -168,10 +167,10 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                                   },
                                                 ),
                                               )),
-                                              SizedBox(height: 16),
+                                              const SizedBox(height: 16),
                                               Text(
                                                   '\$${posting['price']}/month',
-                                                  style: TextStyle(color: Colors.black)),
+                                                  style: const TextStyle(color: Colors.black)),
                                             ],
                                           ));
                                         }))
@@ -184,35 +183,35 @@ class _PostingsBoardState extends State<PostingsBoard> {
   }
 }
 
-Future<List<Map<String, dynamic>>> get_all_postings_from_db() async {
+Future<List<Map<String, dynamic>>> getAllPostingsFromFirestore() async {
   final db = FirestoreService().db;
-  List<Map<String, dynamic>> all_postings = [];
+  List<Map<String, dynamic>> allPostings = [];
   try {
     QuerySnapshot querySnapshot = await db.collection("postings").get();
     for (var docSnapshot in querySnapshot.docs) {
       Map<String, dynamic> posting = docSnapshot.data() as Map<String, dynamic>;
-      all_postings.add(posting);
+      allPostings.add(posting);
     }
   } catch (e) {
     print("Error completing: $e");
   }
-  return all_postings;
+  return allPostings;
 }
 
-void navigate_to_individual_posting(BuildContext context, Map<String, dynamic> posting) {
+void navigateToIndividualPosting(BuildContext context, Map<String, dynamic> posting) {
   Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => IndividualPosting(posting: posting)),
     );
 }
-void launch_url_for_apt(String url) async {
+void launchUrlForApt(String url) async {
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
-    url = 'https://' + url;
+    url = 'https://$url';
   }
   try {
-    Uri url_uri = Uri.parse(url);
-    if (await canLaunchUrl(url_uri)) {
-        await launchUrl(url_uri);
+    Uri urlUri = Uri.parse(url);
+    if (await canLaunchUrl(urlUri)) {
+        await launchUrl(urlUri);
       } else {
         print("Can't launch URL: $url");
       }

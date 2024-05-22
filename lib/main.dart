@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:subleasier/firebase_options.dart';
 import 'sublessor/posting_form.dart';
 import 'sublessee/postings_board.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -68,7 +66,6 @@ class _MyHomePageState extends State<MyHomePage> {
             image: DecorationImage(
               image: const AssetImage('images/tower.jpg'),
               fit: BoxFit.cover,
-              // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
               alignment: const Alignment(0.05, 0),
               colorFilter: ColorFilter.mode(
                 Colors.black.withOpacity(0.8),
@@ -88,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(
-                          20), // Set border radius to 0 for a rectangular button
+                          20),
                     )),
                   ),
                   onPressed: () {
