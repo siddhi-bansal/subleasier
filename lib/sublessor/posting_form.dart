@@ -18,6 +18,7 @@ String _email = '';
 String? _sex = 'Male';
 String? _sublesseePreferredSex = 'Male';
 String? _aptName = 'Moontower';
+String? _finalAptName = '';
 String? _bathroomType = 'Private';
 String _additionalInfo = '';
 int _monthlyPrice = 0;
@@ -258,6 +259,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             onChanged: (String? value) {
                               setState(() {
                                 _aptName = value;
+                                _finalAptName = value;
                               });
                             },
                           )),
@@ -290,6 +292,66 @@ class _SublessorFormState extends State<SublessorForm> {
                             ]
                           ),
                           const SizedBox(height: 15.0),
+                          if (_aptName == 'Other')
+                            Column(
+                              children: <Widget>[
+                                TextFormField(
+                            decoration: const InputDecoration(
+                              labelText: 'Name of your Apartment',
+                              labelStyle:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color.fromARGB(237, 193, 90, 5),
+                                ), // Change to your desired color
+                              ),
+                            ),
+                            cursorColor: const Color.fromARGB(237, 193, 90, 5),
+                            style: const TextStyle(fontSize: 15.0),
+                            validator: (value) {
+                              if (_aptName == 'Other' &&
+                                (value == null || value.isEmpty)) {
+                              return 'Please enter the custom apartment name.';
+                            }
+                            return null; // Return null if the name is valid
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _finalAptName =
+                                    value!.trim(); // Save the entered name
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 15.0),
+                          TextFormField(
+                            decoration: const InputDecoration(
+                              labelText: 'Link to Apartment Website',
+                              labelStyle:
+                                  TextStyle(color: Colors.black, fontSize: 15),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color.fromARGB(237, 193, 90, 5),
+                                ), // Change to your desired color
+                              ),
+                            ),
+                            cursorColor: const Color.fromARGB(237, 193, 90, 5),
+                            style: const TextStyle(fontSize: 15.0),
+                            validator: (value) {
+                              if (_aptName == 'Other' &&
+                                (value == null || value.isEmpty)) {
+                              return 'Please enter the custom apartment name.';
+                            }
+                            return null; // Return null if the name is valid
+                            },
+                            onSaved: (value) {
+                              setState(() {
+                                _aptUrls[_finalAptName!] = value!; // Save the entered name in Urls list
+                              });
+                            },
+                          ),
+                          const SizedBox(height: 15.0),
+                              ]
+                            ),
                           TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Additional Info about Apartment',
@@ -382,8 +444,8 @@ class _SublessorFormState extends State<SublessorForm> {
                                     _email,
                                     _sex,
                                     _monthlyPrice,
-                                    _aptName,
-                                    _aptUrls[_aptName],
+                                    _finalAptName,
+                                    _aptUrls[_finalAptName],
                                     _bathroomType,
                                     _additionalInfo,
                                     _sublesseePreferredSex,
