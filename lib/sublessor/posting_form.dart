@@ -10,19 +10,6 @@ import '../firestore_service.dart';
 import 'package:uuid/uuid.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
-final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-var uuid = const Uuid();
-final picker = ImagePicker();
-String _name = '';
-String _email = '';
-String? _sex = 'Male';
-String? _sublesseePreferredSex = 'Male';
-String? _aptName = 'Moontower';
-String? _finalAptName = '';
-String? _bathroomType = 'Private';
-String _additionalInfo = '';
-int _monthlyPrice = 0;
-bool _imageError = false; // true if user submits form with 0 images
 final List<String> _sexList = ['Male', 'Female'];
 final List<String> _aptNameList = [
   'Moontower',
@@ -32,8 +19,7 @@ final List<String> _aptNameList = [
   'Other'
 ];
 final List<String> _bathroomTypeList = ['Private', 'Shared'];
-Map<String, String> _aptUrls = {'Moontower': 'https://moontoweratx.com/', 'Lark': 'https://larkaustin.com/', '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments', 'Inspire': 'https://www.liveatinspireatx.com/', 'Other': 'www.google.com'};
-// TODO: URL for 'other' is currently a placeholder because we want the user to input this, but that functionality has not been implemented yet.
+Map<String, String> _aptUrls = {'Moontower': 'https://moontoweratx.com/', 'Lark': 'https://larkaustin.com/', '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments', 'Inspire': 'https://www.liveatinspireatx.com/'};
 List<File> _images = [];
 
 class SublessorForm extends StatefulWidget {
@@ -42,11 +28,77 @@ class SublessorForm extends StatefulWidget {
 }
 
 class _SublessorFormState extends State<SublessorForm> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  
+  var uuid = const Uuid();
+  final picker = ImagePicker();
+  String selectedPage = '';
+  String _name = '';
+  String _email = '';
+  String? _sex = 'Male';
+  String? _sublesseePreferredSex = 'Male';
+  String? _aptName = 'Moontower';
+  String? _finalAptName = '';
+  String? _bathroomType = 'Private';
+  String _additionalInfo = '';
+  int _monthlyPrice = 0;
+  bool _imageError = false; // true if user submits form with 0 images
+  
   void setImageErrorTrue() {
     setState(() {
       _imageError = true;
     });
   }
+    /*
+  This method should send data to Firestore. Then, navigate to posting_success.
+  */
+  void submitForm(
+      BuildContext context,
+      String name,
+      String email,
+      String? sex,
+      int price,
+      String? aptName,
+      String? aptUrl,
+      String? bathroomType,
+      String additionalInfo,
+      String? sublesseePreferredSex,
+      List<File> images,
+      Function setImageErrorTrue) async {
+    if (images.isEmpty) {
+      setImageErrorTrue();
+      return null;
+    }
+    if (_formKey.currentState!.validate()) {
+      final db = FirestoreService().db;
+      String currUuid = uuid.v4();
+      List<String> imageUrls =
+          await uploadImagesToFirebaseStorage(images, currUuid);
+      final posting = {
+        'name': name,
+        'email': email,
+        'sublessor_sex': sex,
+        'price': price,
+        'apt_name': aptName,
+        'apt_url': aptUrl,
+        'bathroom_type': bathroomType,
+        'additional_info': additionalInfo,
+        'preferred_sublessee_sex': sublesseePreferredSex,
+        'images': imageUrls
+      };
+      db.collection('postings').add(posting).then(
+          (DocumentReference doc) => print('Apartment added with ID: ${doc.id}'));
+
+      print('Form submitted!');
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => PostingSuccess())
+      );
+    }
+    // else, Flutter will automatically handle error.
+  }
+
 
   Future getImages() async {
     try {
@@ -65,7 +117,35 @@ class _SublessorFormState extends State<SublessorForm> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
+        leading: Padding(
+            padding: const EdgeInsets.only(left: 15, top: 5),
+            child: PopupMenuButton(onSelected: (value) {
+            setState(() {
+              selectedPage = value.toString();
+              Navigator.pushNamed(context, value.toString());
+            });
+          }, itemBuilder: (BuildContext bc) {
+            return const [
+              PopupMenuItem(
+                value: '/home',
+                child: Text('Home')
+              ),
+              PopupMenuItem(
+                value: '/sublessor_form',
+                child: Text('Sublessor Form')
+              ),
+              PopupMenuItem(
+                value: '/all_listings',
+                child: Text('All Listings')
+              ),
+              PopupMenuItem(
+                value: '/profile',
+                child: Text('Profile')
+              ),
+            ];
+          })),
         title: const Text(
           'SUBLEASIER',
           style: TextStyle(
@@ -486,54 +566,4 @@ Future<List<String>> uploadImagesToFirebaseStorage(
   }
 
   return imageUrls;
-}
-
-/*
-This method should send data to Firestore. Then, navigate to posting_success.
-*/
-void submitForm(
-    BuildContext context,
-    String name,
-    String email,
-    String? sex,
-    int price,
-    String? aptName,
-    String? aptUrl,
-    String? bathroomType,
-    String additionalInfo,
-    String? sublesseePreferredSex,
-    List<File> images,
-    Function setImageErrorTrue) async {
-  if (images.isEmpty) {
-    setImageErrorTrue();
-    return null;
-  }
-  if (_formKey.currentState!.validate()) {
-    final db = FirestoreService().db;
-    String currUuid = uuid.v4();
-    List<String> imageUrls =
-        await uploadImagesToFirebaseStorage(images, currUuid);
-    final posting = {
-      'name': name,
-      'email': email,
-      'sublessor_sex': sex,
-      'price': price,
-      'apt_name': aptName,
-      'apt_url': aptUrl,
-      'bathroom_type': bathroomType,
-      'additional_info': additionalInfo,
-      'preferred_sublessee_sex': sublesseePreferredSex,
-      'images': imageUrls
-    };
-    db.collection('postings').add(posting).then(
-        (DocumentReference doc) => print('Apartment added with ID: ${doc.id}'));
-
-    print('Form submitted!');
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => PostingSuccess())
-    );
-  }
-  // else, Flutter will automatically handle error.
 }

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:subleasier/sublessee/postings_board.dart';
 
-String selectedPage = '';
-
-class PostingSuccess extends StatefulWidget{
-  @override
-  _PostingSuccessState createState() => _PostingSuccessState();
+class Profile extends StatefulWidget{
+  _ProfileState createState() => _ProfileState();
 }
 
-class _PostingSuccessState extends State<PostingSuccess> {
+class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,7 +93,7 @@ class _PostingSuccessState extends State<PostingSuccess> {
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20.0, vertical: 20.0),
                             child: Text(
-                              'Congrats, we’ve listed your apartment! Interested sublessees will reach out to you at the phone number you provided!',
+                              'PROFILE PAGE',
                               style: TextStyle(
                                 fontSize: 18,
                               ),

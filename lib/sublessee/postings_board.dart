@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:subleasier/sublessee/individual_posting.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../firestore_service.dart';
-import '../sublessor/posting_form.dart';
 
+String selectedPage = '';
 List<Map<String, dynamic>> allPostings = [];
 
 class PostingsBoard extends StatefulWidget {
@@ -50,7 +50,35 @@ class _PostingsBoardState extends State<PostingsBoard> {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
+        leading: Padding(
+            padding: const EdgeInsets.only(left: 15, top: 5),
+            child: PopupMenuButton(onSelected: (value) {
+            setState(() {
+              selectedPage = value.toString();
+              Navigator.pushNamed(context, value.toString());
+            });
+          }, itemBuilder: (BuildContext bc) {
+            return const [
+              PopupMenuItem(
+                value: '/home',
+                child: Text('Home')
+              ),
+              PopupMenuItem(
+                value: '/sublessor_form',
+                child: Text('Sublessor Form')
+              ),
+              PopupMenuItem(
+                value: '/all_listings',
+                child: Text('All Listings')
+              ),
+              PopupMenuItem(
+                value: '/profile',
+                child: Text('Profile')
+              ),
+            ];
+          })),
         title: const Text(
           'SUBLEASIER',
           style: TextStyle(

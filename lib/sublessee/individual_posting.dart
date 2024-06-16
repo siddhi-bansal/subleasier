@@ -1,15 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class IndividualPosting extends StatelessWidget {
+String selectedPage = '';
+
+class IndividualPosting extends StatefulWidget {
   final Map<String, dynamic> posting;
   const IndividualPosting({required this.posting});
   @override
+ _IndividualPostingState createState() => _IndividualPostingState();
+}
+
+class _IndividualPostingState extends State<IndividualPosting> {
+  @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic> posting = widget.posting;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
+        leading: Padding(
+            padding: const EdgeInsets.only(left: 15, top: 5),
+            child: PopupMenuButton(onSelected: (value) {
+            setState(() {
+              selectedPage = value.toString();
+              Navigator.pushNamed(context, value.toString());
+            });
+          }, itemBuilder: (BuildContext bc) {
+            return const [
+              PopupMenuItem(
+                value: '/home',
+                child: Text('Home')
+              ),
+              PopupMenuItem(
+                value: '/sublessor_form',
+                child: Text('Sublessor Form')
+              ),
+              PopupMenuItem(
+                value: '/all_listings',
+                child: Text('All Listings')
+              ),
+              PopupMenuItem(
+                value: '/profile',
+                child: Text('Profile')
+              ),
+            ];
+          })),
         title: const Text(
           'SUBLEASIER',
           style: TextStyle(
