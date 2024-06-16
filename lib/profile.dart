@@ -61,66 +61,48 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      body: Stack(children: [
-        Container(
-            decoration: BoxDecoration(
-          image: DecorationImage(
-            image: const AssetImage('images/tower.jpg'),
-            fit: BoxFit.cover,
-            // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
-            alignment: const Alignment(0.05, 0),
-            colorFilter: ColorFilter.mode(
-              Colors.black.withOpacity(0.8),
-              BlendMode.dstATop, // Blend mode for the color filter
+      body: Stack(
+        children: [
+          Container(
+              decoration: BoxDecoration(
+            image: DecorationImage(
+              image: const AssetImage('images/tower.jpg'),
+              fit: BoxFit.cover,
+              // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
+              alignment: const Alignment(0.05, 0),
+              colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.8),
+                BlendMode.dstATop, // Blend mode for the color filter
+              ),
             ),
-          ),
-        )),
-        Positioned(
-            top: 313,
-            left: 31,
-            child: Container(
-                width: 332,
-                height: 226,
-                decoration: BoxDecoration(
-                    color: const Color.fromARGB(200, 255, 255, 255),
-                    borderRadius: BorderRadius.circular(20)),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Column(children: [
-                    const SizedBox(height: 10),
-                    const Center(
-                        child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20.0, vertical: 20.0),
-                            child: Text(
-                              'PROFILE PAGE',
-                              style: TextStyle(
-                                fontSize: 18,
-                              ),
-                              textAlign: TextAlign.center,
-                            ))),
-                    Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 60.0),
-                        child: ElevatedButton(
-                            style: ButtonStyle(
-                              backgroundColor: WidgetStateProperty.all<Color>(
-                                  const Color.fromARGB(120, 255, 115, 0)),
-                              minimumSize: WidgetStateProperty.all<Size>(
-                                  const Size(10, 40)),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => PostingsBoard()));
-                            },
-                            child: const Center(
-                                child: Text('View all Listings',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                    )))))
-                  ]),
-                )))
+          )),
+          Positioned(
+              top: 145,
+              left: 31,
+              child: Container(
+                  width: 332,
+                  height: 680,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(200, 255, 255, 255),
+                      borderRadius: BorderRadius.circular(20)),
+                  child: const SizedBox(
+                    width: double.infinity,
+                    child: Column(children: [
+                      SizedBox(height: 10),
+                      Center(
+                          child: Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20.0, vertical: 20.0),
+                              child: Text(
+                                'Hello {Name}!',
+                                style: TextStyle(
+                                  fontSize: 18,
+                                ),
+                                textAlign: TextAlign.center,
+                              )))
+                      // ADD MORE ELEMENTS HERE
+                    ]),
+                  )))
       ]),
     );
   }
