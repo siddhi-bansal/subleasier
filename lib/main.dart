@@ -58,12 +58,64 @@ class _MyHomePageState extends State<MyHomePage> {
                 });
               }, itemBuilder: (BuildContext bc) {
                 return const [
-                  PopupMenuItem(value: '/home', child: Text('Home')),
+                  PopupMenuItem(value: '/home', 
+                  child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.home_outlined),
+                        ),
+                        Text(
+                          'Home',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    )
+                  ),
                   PopupMenuItem(
-                      value: '/sublessor_form', child: Text('Sublessor Form')),
+                      value: '/sublessor_form', 
+                      child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.description_outlined),
+                        ),
+                        Text(
+                          'Sublessor Form',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    )
+                  ),
                   PopupMenuItem(
-                      value: '/all_listings', child: Text('All Listings')),
-                  PopupMenuItem(value: '/profile', child: Text('Profile')),
+                      value: '/all_listings', 
+                      child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.list),
+                        ),
+                        Text(
+                          'All Listings',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    )
+                  ),
+                  PopupMenuItem(value: '/profile', 
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: 8.0),
+                          child: Icon(Icons.person_outline_rounded),
+                        ),
+                        Text(
+                          'Profile',
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ],
+                    )
+                  ),
                 ];
               })),
           title: Text(
