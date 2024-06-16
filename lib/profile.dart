@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:subleasier/sublessee/postings_board.dart';
 
-class Profile extends StatefulWidget{
+class Profile extends StatefulWidget {
   _ProfileState createState() => _ProfileState();
 }
 
@@ -16,30 +16,20 @@ class _ProfileState extends State<Profile> {
         leading: Padding(
             padding: const EdgeInsets.only(left: 15, top: 5),
             child: PopupMenuButton(onSelected: (value) {
-            setState(() {
-              selectedPage = value.toString();
-              Navigator.pushNamed(context, value.toString());
-            });
-          }, itemBuilder: (BuildContext bc) {
-            return const [
-              PopupMenuItem(
-                value: '/home',
-                child: Text('Home')
-              ),
-              PopupMenuItem(
-                value: '/sublessor_form',
-                child: Text('Sublessor Form')
-              ),
-              PopupMenuItem(
-                value: '/all_listings',
-                child: Text('All Listings')
-              ),
-              PopupMenuItem(
-                value: '/profile',
-                child: Text('Profile')
-              ),
-            ];
-          })),
+              setState(() {
+                selectedPage = value.toString();
+                Navigator.pushNamed(context, value.toString());
+              });
+            }, itemBuilder: (BuildContext bc) {
+              return const [
+                PopupMenuItem(value: '/home', child: Text('Home')),
+                PopupMenuItem(
+                    value: '/sublessor_form', child: Text('Sublessor Form')),
+                PopupMenuItem(
+                    value: '/all_listings', child: Text('All Listings')),
+                PopupMenuItem(value: '/profile', child: Text('Profile')),
+              ];
+            })),
         title: const Text(
           'SUBLEASIER',
           style: TextStyle(
@@ -61,48 +51,47 @@ class _ProfileState extends State<Profile> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          Container(
-              decoration: BoxDecoration(
-            image: DecorationImage(
-              image: const AssetImage('images/tower.jpg'),
-              fit: BoxFit.cover,
-              // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
-              alignment: const Alignment(0.05, 0),
-              colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.8),
-                BlendMode.dstATop, // Blend mode for the color filter
-              ),
+      body: Stack(children: [
+        Container(
+            decoration: BoxDecoration(
+          image: DecorationImage(
+            image: const AssetImage('images/tower.jpg'),
+            fit: BoxFit.cover,
+            // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
+            alignment: const Alignment(0.05, 0),
+            colorFilter: ColorFilter.mode(
+              Colors.black.withOpacity(0.8),
+              BlendMode.dstATop, // Blend mode for the color filter
             ),
-          )),
-          Positioned(
-              top: 145,
-              left: 31,
-              child: Container(
-                  width: 332,
-                  height: 680,
-                  decoration: BoxDecoration(
-                      color: const Color.fromARGB(200, 255, 255, 255),
-                      borderRadius: BorderRadius.circular(20)),
-                  child: const SizedBox(
-                    width: double.infinity,
-                    child: Column(children: [
-                      SizedBox(height: 10),
-                      Center(
-                          child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20.0, vertical: 20.0),
-                              child: Text(
-                                'Hello {Name}!',
-                                style: TextStyle(
-                                  fontSize: 18,
-                                ),
-                                textAlign: TextAlign.center,
-                              )))
-                      // ADD MORE ELEMENTS HERE
-                    ]),
-                  )))
+          ),
+        )),
+        Positioned(
+            top: 145,
+            left: 31,
+            child: Container(
+                width: 332,
+                height: 680,
+                decoration: BoxDecoration(
+                    color: const Color.fromARGB(200, 255, 255, 255),
+                    borderRadius: BorderRadius.circular(20)),
+                child: const SizedBox(
+                  width: double.infinity,
+                  child: Column(children: [
+                    SizedBox(height: 10),
+                    Center(
+                        child: Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20.0, vertical: 20.0),
+                            child: Text(
+                              'Hello {Name}!',
+                              style: TextStyle(
+                                fontSize: 18,
+                              ),
+                              textAlign: TextAlign.center,
+                            )))
+                    // ADD MORE ELEMENTS HERE
+                  ]),
+                )))
       ]),
     );
   }

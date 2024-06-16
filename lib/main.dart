@@ -17,19 +17,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Subleasier',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'SUBLEASIER'),
-      routes: {
-        '/home': (context) => MyApp(),
-        '/sublessor_form': (context) => SublessorForm(),
-        '/all_listings': (context) => PostingsBoard(),
-        '/profile': (context) => Profile(),
-      }
-    );
+        title: 'Subleasier',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(title: 'SUBLEASIER'),
+        routes: {
+          '/home': (context) => MyApp(),
+          '/sublessor_form': (context) => SublessorForm(),
+          '/all_listings': (context) => PostingsBoard(),
+          '/profile': (context) => Profile(),
+        });
   }
 }
 
@@ -51,32 +50,22 @@ class _MyHomePageState extends State<MyHomePage> {
           automaticallyImplyLeading: false,
           backgroundColor: Colors.transparent,
           leading: Padding(
-            padding: const EdgeInsets.only(left: 15, top: 5),
-            child: PopupMenuButton(onSelected: (value) {
-            setState(() {
-              selectedPage = value.toString();
-              Navigator.pushNamed(context, value.toString());
-            });
-          }, itemBuilder: (BuildContext bc) {
-            return const [
-              PopupMenuItem(
-                value: '/home',
-                child: Text('Home')
-              ),
-              PopupMenuItem(
-                value: '/sublessor_form',
-                child: Text('Sublessor Form')
-              ),
-              PopupMenuItem(
-                value: '/all_listings',
-                child: Text('All Listings')
-              ),
-              PopupMenuItem(
-                value: '/profile',
-                child: Text('Profile')
-              ),
-            ];
-          })),
+              padding: const EdgeInsets.only(left: 15, top: 5),
+              child: PopupMenuButton(onSelected: (value) {
+                setState(() {
+                  selectedPage = value.toString();
+                  Navigator.pushNamed(context, value.toString());
+                });
+              }, itemBuilder: (BuildContext bc) {
+                return const [
+                  PopupMenuItem(value: '/home', child: Text('Home')),
+                  PopupMenuItem(
+                      value: '/sublessor_form', child: Text('Sublessor Form')),
+                  PopupMenuItem(
+                      value: '/all_listings', child: Text('All Listings')),
+                  PopupMenuItem(value: '/profile', child: Text('Profile')),
+                ];
+              })),
           title: Text(
             widget.title,
             style: const TextStyle(
@@ -121,8 +110,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         const Color.fromARGB(230, 191, 87, 0)),
                     shape: WidgetStateProperty.all<RoundedRectangleBorder>(
                         RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(
-                          20),
+                      borderRadius: BorderRadius.circular(20),
                     )),
                   ),
                   onPressed: () {

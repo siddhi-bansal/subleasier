@@ -3,7 +3,7 @@ import 'package:subleasier/sublessee/postings_board.dart';
 
 String selectedPage = '';
 
-class PostingSuccess extends StatefulWidget{
+class PostingSuccess extends StatefulWidget {
   @override
   _PostingSuccessState createState() => _PostingSuccessState();
 }
@@ -19,30 +19,20 @@ class _PostingSuccessState extends State<PostingSuccess> {
         leading: Padding(
             padding: const EdgeInsets.only(left: 15, top: 5),
             child: PopupMenuButton(onSelected: (value) {
-            setState(() {
-              selectedPage = value.toString();
-              Navigator.pushNamed(context, value.toString());
-            });
-          }, itemBuilder: (BuildContext bc) {
-            return const [
-              PopupMenuItem(
-                value: '/home',
-                child: Text('Home')
-              ),
-              PopupMenuItem(
-                value: '/sublessor_form',
-                child: Text('Sublessor Form')
-              ),
-              PopupMenuItem(
-                value: '/all_listings',
-                child: Text('All Listings')
-              ),
-              PopupMenuItem(
-                value: '/profile',
-                child: Text('Profile')
-              ),
-            ];
-          })),
+              setState(() {
+                selectedPage = value.toString();
+                Navigator.pushNamed(context, value.toString());
+              });
+            }, itemBuilder: (BuildContext bc) {
+              return const [
+                PopupMenuItem(value: '/home', child: Text('Home')),
+                PopupMenuItem(
+                    value: '/sublessor_form', child: Text('Sublessor Form')),
+                PopupMenuItem(
+                    value: '/all_listings', child: Text('All Listings')),
+                PopupMenuItem(value: '/profile', child: Text('Profile')),
+              ];
+            })),
         title: const Text(
           'SUBLEASIER',
           style: TextStyle(

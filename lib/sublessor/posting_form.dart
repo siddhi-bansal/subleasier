@@ -19,7 +19,12 @@ final List<String> _aptNameList = [
   'Other'
 ];
 final List<String> _bathroomTypeList = ['Private', 'Shared'];
-Map<String, String> _aptUrls = {'Moontower': 'https://moontoweratx.com/', 'Lark': 'https://larkaustin.com/', '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments', 'Inspire': 'https://www.liveatinspireatx.com/'};
+Map<String, String> _aptUrls = {
+  'Moontower': 'https://moontoweratx.com/',
+  'Lark': 'https://larkaustin.com/',
+  '2400 Nueces': 'https://housing.utexas.edu/housing/2400-nueces-apartments',
+  'Inspire': 'https://www.liveatinspireatx.com/'
+};
 List<File> _images = [];
 
 class SublessorForm extends StatefulWidget {
@@ -29,7 +34,7 @@ class SublessorForm extends StatefulWidget {
 
 class _SublessorFormState extends State<SublessorForm> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  
+
   var uuid = const Uuid();
   final picker = ImagePicker();
   String selectedPage = '';
@@ -43,13 +48,14 @@ class _SublessorFormState extends State<SublessorForm> {
   String _additionalInfo = '';
   int _monthlyPrice = 0;
   bool _imageError = false; // true if user submits form with 0 images
-  
+
   void setImageErrorTrue() {
     setState(() {
       _imageError = true;
     });
   }
-    /*
+
+  /*
   This method should send data to Firestore. Then, navigate to posting_success.
   */
   void submitForm(
@@ -86,19 +92,16 @@ class _SublessorFormState extends State<SublessorForm> {
         'preferred_sublessee_sex': sublesseePreferredSex,
         'images': imageUrls
       };
-      db.collection('postings').add(posting).then(
-          (DocumentReference doc) => print('Apartment added with ID: ${doc.id}'));
+      db.collection('postings').add(posting).then((DocumentReference doc) =>
+          print('Apartment added with ID: ${doc.id}'));
 
       print('Form submitted!');
 
       Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => PostingSuccess())
-      );
+          context, MaterialPageRoute(builder: (context) => PostingSuccess()));
     }
     // else, Flutter will automatically handle error.
   }
-
 
   Future getImages() async {
     try {
@@ -122,30 +125,20 @@ class _SublessorFormState extends State<SublessorForm> {
         leading: Padding(
             padding: const EdgeInsets.only(left: 15, top: 5),
             child: PopupMenuButton(onSelected: (value) {
-            setState(() {
-              selectedPage = value.toString();
-              Navigator.pushNamed(context, value.toString());
-            });
-          }, itemBuilder: (BuildContext bc) {
-            return const [
-              PopupMenuItem(
-                value: '/home',
-                child: Text('Home')
-              ),
-              PopupMenuItem(
-                value: '/sublessor_form',
-                child: Text('Sublessor Form')
-              ),
-              PopupMenuItem(
-                value: '/all_listings',
-                child: Text('All Listings')
-              ),
-              PopupMenuItem(
-                value: '/profile',
-                child: Text('Profile')
-              ),
-            ];
-          })),
+              setState(() {
+                selectedPage = value.toString();
+                Navigator.pushNamed(context, value.toString());
+              });
+            }, itemBuilder: (BuildContext bc) {
+              return const [
+                PopupMenuItem(value: '/home', child: Text('Home')),
+                PopupMenuItem(
+                    value: '/sublessor_form', child: Text('Sublessor Form')),
+                PopupMenuItem(
+                    value: '/all_listings', child: Text('All Listings')),
+                PopupMenuItem(value: '/profile', child: Text('Profile')),
+              ];
+            })),
         title: const Text(
           'SUBLEASIER',
           style: TextStyle(
@@ -315,123 +308,123 @@ class _SublessorFormState extends State<SublessorForm> {
                           ),
                           const SizedBox(height: 10),
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              Expanded(
-                                child: DropdownButtonFormField<String>(
-                            decoration: const InputDecoration(
-                              labelText: 'Location', // Hint text
-                              labelStyle:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(237, 193, 90, 5),
-                                ),
-                              ),
-                            ),
-                            value: _aptName,
-                            items: _aptNameList.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _aptName = value;
-                                _finalAptName = value;
-                              });
-                            },
-                          )),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: DropdownButtonFormField<String>(
-                            decoration: const InputDecoration(
-                              labelText: 'Bathroom Type', // Hint text
-                              labelStyle:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(237, 193, 90, 5),
-                                ),
-                              ),
-                            ),
-                            value: _bathroomType,
-                            items: _bathroomTypeList.map((String value) {
-                              return DropdownMenuItem<String>(
-                                value: value,
-                                child: Text(value),
-                              );
-                            }).toList(),
-                            onChanged: (String? value) {
-                              setState(() {
-                                _bathroomType = value;
-                              });
-                            },
-                          )),
-                            ]
-                          ),
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                Expanded(
+                                    child: DropdownButtonFormField<String>(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Location', // Hint text
+                                    labelStyle: TextStyle(
+                                        color: Colors.black, fontSize: 15),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(237, 193, 90, 5),
+                                      ),
+                                    ),
+                                  ),
+                                  value: _aptName,
+                                  items: _aptNameList.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _aptName = value;
+                                      _finalAptName = value;
+                                    });
+                                  },
+                                )),
+                                const SizedBox(width: 10),
+                                Expanded(
+                                    child: DropdownButtonFormField<String>(
+                                  decoration: const InputDecoration(
+                                    labelText: 'Bathroom Type', // Hint text
+                                    labelStyle: TextStyle(
+                                        color: Colors.black, fontSize: 15),
+                                    focusedBorder: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                        color: Color.fromARGB(237, 193, 90, 5),
+                                      ),
+                                    ),
+                                  ),
+                                  value: _bathroomType,
+                                  items: _bathroomTypeList.map((String value) {
+                                    return DropdownMenuItem<String>(
+                                      value: value,
+                                      child: Text(value),
+                                    );
+                                  }).toList(),
+                                  onChanged: (String? value) {
+                                    setState(() {
+                                      _bathroomType = value;
+                                    });
+                                  },
+                                )),
+                              ]),
                           const SizedBox(height: 15.0),
                           if (_aptName == 'Other')
-                            Column(
-                              children: <Widget>[
-                                TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Name of your Apartment',
-                              labelStyle:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(237, 193, 90, 5),
-                                ), // Change to your desired color
+                            Column(children: <Widget>[
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Name of your Apartment',
+                                  labelStyle: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(237, 193, 90, 5),
+                                    ), // Change to your desired color
+                                  ),
+                                ),
+                                cursorColor:
+                                    const Color.fromARGB(237, 193, 90, 5),
+                                style: const TextStyle(fontSize: 15.0),
+                                validator: (value) {
+                                  if (_aptName == 'Other' &&
+                                      (value == null || value.isEmpty)) {
+                                    return 'Please enter the custom apartment name.';
+                                  }
+                                  return null; // Return null if the name is valid
+                                },
+                                onSaved: (value) {
+                                  setState(() {
+                                    _finalAptName =
+                                        value!.trim(); // Save the entered name
+                                  });
+                                },
                               ),
-                            ),
-                            cursorColor: const Color.fromARGB(237, 193, 90, 5),
-                            style: const TextStyle(fontSize: 15.0),
-                            validator: (value) {
-                              if (_aptName == 'Other' &&
-                                (value == null || value.isEmpty)) {
-                              return 'Please enter the custom apartment name.';
-                            }
-                            return null; // Return null if the name is valid
-                            },
-                            onSaved: (value) {
-                              setState(() {
-                                _finalAptName =
-                                    value!.trim(); // Save the entered name
-                              });
-                            },
-                          ),
-                          const SizedBox(height: 15.0),
-                          TextFormField(
-                            decoration: const InputDecoration(
-                              labelText: 'Link to Apartment Website',
-                              labelStyle:
-                                  TextStyle(color: Colors.black, fontSize: 15),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                                  color: Color.fromARGB(237, 193, 90, 5),
-                                ), // Change to your desired color
+                              const SizedBox(height: 15.0),
+                              TextFormField(
+                                decoration: const InputDecoration(
+                                  labelText: 'Link to Apartment Website',
+                                  labelStyle: TextStyle(
+                                      color: Colors.black, fontSize: 15),
+                                  focusedBorder: UnderlineInputBorder(
+                                    borderSide: BorderSide(
+                                      color: Color.fromARGB(237, 193, 90, 5),
+                                    ), // Change to your desired color
+                                  ),
+                                ),
+                                cursorColor:
+                                    const Color.fromARGB(237, 193, 90, 5),
+                                style: const TextStyle(fontSize: 15.0),
+                                validator: (value) {
+                                  if (_aptName == 'Other' &&
+                                      (value == null || value.isEmpty)) {
+                                    return 'Please enter the custom apartment name.';
+                                  }
+                                  return null; // Return null if the name is valid
+                                },
+                                onSaved: (value) {
+                                  setState(() {
+                                    _aptUrls[_finalAptName!] =
+                                        value!; // Save the entered name in Urls list
+                                  });
+                                },
                               ),
-                            ),
-                            cursorColor: const Color.fromARGB(237, 193, 90, 5),
-                            style: const TextStyle(fontSize: 15.0),
-                            validator: (value) {
-                              if (_aptName == 'Other' &&
-                                (value == null || value.isEmpty)) {
-                              return 'Please enter the custom apartment name.';
-                            }
-                            return null; // Return null if the name is valid
-                            },
-                            onSaved: (value) {
-                              setState(() {
-                                _aptUrls[_finalAptName!] = value!; // Save the entered name in Urls list
-                              });
-                            },
-                          ),
-                          const SizedBox(height: 15.0),
-                              ]
-                            ),
+                              const SizedBox(height: 15.0),
+                            ]),
                           TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Additional Info about Apartment',

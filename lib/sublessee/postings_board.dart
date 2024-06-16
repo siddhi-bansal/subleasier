@@ -55,30 +55,20 @@ class _PostingsBoardState extends State<PostingsBoard> {
         leading: Padding(
             padding: const EdgeInsets.only(left: 15, top: 5),
             child: PopupMenuButton(onSelected: (value) {
-            setState(() {
-              selectedPage = value.toString();
-              Navigator.pushNamed(context, value.toString());
-            });
-          }, itemBuilder: (BuildContext bc) {
-            return const [
-              PopupMenuItem(
-                value: '/home',
-                child: Text('Home')
-              ),
-              PopupMenuItem(
-                value: '/sublessor_form',
-                child: Text('Sublessor Form')
-              ),
-              PopupMenuItem(
-                value: '/all_listings',
-                child: Text('All Listings')
-              ),
-              PopupMenuItem(
-                value: '/profile',
-                child: Text('Profile')
-              ),
-            ];
-          })),
+              setState(() {
+                selectedPage = value.toString();
+                Navigator.pushNamed(context, value.toString());
+              });
+            }, itemBuilder: (BuildContext bc) {
+              return const [
+                PopupMenuItem(value: '/home', child: Text('Home')),
+                PopupMenuItem(
+                    value: '/sublessor_form', child: Text('Sublessor Form')),
+                PopupMenuItem(
+                    value: '/all_listings', child: Text('All Listings')),
+                PopupMenuItem(value: '/profile', child: Text('Profile')),
+              ];
+            })),
         title: const Text(
           'SUBLEASIER',
           style: TextStyle(
@@ -138,8 +128,12 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                 Padding(
                                     padding: const EdgeInsets.only(top: 15),
                                     child: TextButton(
-                                      child: Text(entriesList[index].key, style: const TextStyle(fontSize: 20, color: Colors.black)), 
-                                      onPressed: () => launchUrlForApt(curr_postings[0]['apt_url']),
+                                      child: Text(entriesList[index].key,
+                                          style: const TextStyle(
+                                              fontSize: 20,
+                                              color: Colors.black)),
+                                      onPressed: () => launchUrlForApt(
+                                          curr_postings[0]['apt_url']),
                                     )),
                                 SizedBox(
                                     height: 220,
@@ -148,59 +142,65 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
                                         itemCount: curr_postings.length,
-                                        itemBuilder:
-                                            (currContext, currIndex) {
+                                        itemBuilder: (currContext, currIndex) {
                                           final posting =
                                               curr_postings[currIndex];
-                                          return ElevatedButton (
-                                            onPressed: () {
-                                              navigateToIndividualPosting(context, posting);
-                                            },
-                                            style: ButtonStyle(
-                                              backgroundColor:  WidgetStateProperty.all<Color>(Colors.transparent),
-                                              shadowColor: WidgetStateProperty.all<Color?>(Colors.transparent),
-                                              shape: WidgetStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(
-                                              20)
-                                        ))
-                                            ),
-                                            child: Column(
-                                            // mainAxisSize: MainAxisSize.min,
-                                            children: [
-                                              const SizedBox(height: 20),
-                                              Center(
-                                                  child: Padding(
-                                                padding: const EdgeInsets.only(
-                                                    right: 10, left: 10),
-                                                child: Image.network(
-                                                  width: 150,
-                                                  height: 150,
-                                                  fit: BoxFit.cover,
-                                                  posting['images'][0],
-                                                  loadingBuilder: (BuildContext
-                                                          imageContext,
-                                                      Widget child,
-                                                      ImageChunkEvent?
-                                                          loadingProgress) {
-                                                    if (loadingProgress ==
-                                                        null) {
-                                                      return child;
-                                                    }
-                                                    return const Center(
-                                                      child:
-                                                          CircularProgressIndicator(),
-                                                    );
-                                                  },
-                                                ),
-                                              )),
-                                              const SizedBox(height: 16),
-                                              Text(
-                                                  '\$${posting['price']}/month',
-                                                  style: const TextStyle(color: Colors.black)),
-                                            ],
-                                          ));
+                                          return ElevatedButton(
+                                              onPressed: () {
+                                                navigateToIndividualPosting(
+                                                    context, posting);
+                                              },
+                                              style: ButtonStyle(
+                                                  backgroundColor:
+                                                      WidgetStateProperty.all<Color>(
+                                                          Colors.transparent),
+                                                  shadowColor:
+                                                      WidgetStateProperty.all<Color?>(
+                                                          Colors.transparent),
+                                                  shape: WidgetStateProperty.all<
+                                                          RoundedRectangleBorder>(
+                                                      RoundedRectangleBorder(
+                                                          borderRadius:
+                                                              BorderRadius.circular(
+                                                                  20)))),
+                                              child: Column(
+                                                // mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  const SizedBox(height: 20),
+                                                  Center(
+                                                      child: Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10,
+                                                            left: 10),
+                                                    child: Image.network(
+                                                      width: 150,
+                                                      height: 150,
+                                                      fit: BoxFit.cover,
+                                                      posting['images'][0],
+                                                      loadingBuilder: (BuildContext
+                                                              imageContext,
+                                                          Widget child,
+                                                          ImageChunkEvent?
+                                                              loadingProgress) {
+                                                        if (loadingProgress ==
+                                                            null) {
+                                                          return child;
+                                                        }
+                                                        return const Center(
+                                                          child:
+                                                              CircularProgressIndicator(),
+                                                        );
+                                                      },
+                                                    ),
+                                                  )),
+                                                  const SizedBox(height: 16),
+                                                  Text(
+                                                      '\$${posting['price']}/month',
+                                                      style: const TextStyle(
+                                                          color: Colors.black)),
+                                                ],
+                                              ));
                                         }))
                               ])),
                         );
@@ -226,12 +226,15 @@ Future<List<Map<String, dynamic>>> getAllPostingsFromFirestore() async {
   return allPostings;
 }
 
-void navigateToIndividualPosting(BuildContext context, Map<String, dynamic> posting) {
+void navigateToIndividualPosting(
+    BuildContext context, Map<String, dynamic> posting) {
   Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => IndividualPosting(posting: posting)),
-    );
+    context,
+    MaterialPageRoute(
+        builder: (context) => IndividualPosting(posting: posting)),
+  );
 }
+
 void launchUrlForApt(String url) async {
   if (!url.startsWith('http://') && !url.startsWith('https://')) {
     url = 'https://$url';
@@ -239,12 +242,11 @@ void launchUrlForApt(String url) async {
   try {
     Uri urlUri = Uri.parse(url);
     if (await canLaunchUrl(urlUri)) {
-        await launchUrl(urlUri);
-      } else {
-        print("Can't launch URL: $url");
-      }
-  } catch(e) {
+      await launchUrl(urlUri);
+    } else {
+      print("Can't launch URL: $url");
+    }
+  } catch (e) {
     print("Error in launching URL: $e");
   }
-  
 }
