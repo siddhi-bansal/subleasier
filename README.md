@@ -24,3 +24,18 @@ I will use this README to track To-Dos and pending items for now.
 5. Replace Firebase Frequent Polling with Realtime-Updates (right now, I query to Firebase everytime the Postings Listings screen is built. ideally, I want to only query to Firebase if any changes have been made to the database.)
 6. Test on Android (need to set up Android emulator, after which I need to test all the functionality on Android)
 7. Look into how to make code production ready
+
+
+
+**-------****-------****-------****-------****-------****-------****-------****-------****-------****-------**
+AI Applications for Gemini API Developer Competition
+
+API Key: AIzaSyD_Y1NAZtWP2DvgD3OT748H3nJT2m-sxV4
+
+Use-Cases/Applications (in order of implementation):
+1. DONE: Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
+2. Predict fair market value
+3. Customize sublease contracts based on user inputs
+4. Image recognition to verify authenticity of images uploaded by users (prevent fraud)
+5. Chatbot assistance to help with common queries, guide through app, help find suitable listings
+6. Sublessees can navigate neighborhood of apartment

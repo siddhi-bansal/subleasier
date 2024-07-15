@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:image_picker/image_picker.dart';
 import 'posting_success.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -10,6 +11,7 @@ import '../firestore_service.dart';
 import 'package:uuid/uuid.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 
+final geminiApiKey = 'AIzaSyD_Y1NAZtWP2DvgD3OT748H3nJT2m-sxV4';
 final List<String> _sexList = ['Male', 'Female'];
 final List<String> _aptNameList = [
   'Moontower',
@@ -43,7 +45,7 @@ class _SublessorFormState extends State<SublessorForm> {
   String? _sex = 'Male';
   String? _sublesseePreferredSex = 'Male';
   String? _aptName = 'Moontower';
-  String? _finalAptName = '';
+  String? _finalAptName = 'Moontower';
   String? _bathroomType = 'Private';
   String _additionalInfo = '';
   int _monthlyPrice = 0;
@@ -80,6 +82,7 @@ class _SublessorFormState extends State<SublessorForm> {
       String currUuid = uuid.v4();
       List<String> imageUrls =
           await uploadImagesToFirebaseStorage(images, currUuid);
+      String? aptCondition = await getAptConditionFromGemini(images);
       final posting = {
         'name': name,
         'email': email,
@@ -90,7 +93,8 @@ class _SublessorFormState extends State<SublessorForm> {
         'bathroom_type': bathroomType,
         'additional_info': additionalInfo,
         'preferred_sublessee_sex': sublesseePreferredSex,
-        'images': imageUrls
+        'images': imageUrls,
+        'apartment_condition': aptCondition
       };
       db.collection('postings').add(posting).then((DocumentReference doc) =>
           print('Apartment added with ID: ${doc.id}'));
@@ -589,6 +593,20 @@ class _SublessorFormState extends State<SublessorForm> {
                 ]))))
       ]),
     );
+  }
+  
+  Future<String?> getAptConditionFromGemini (List<File> images) async {
+    final model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: geminiApiKey);
+    final prompt = TextPart("In a few words, describe the condition of this apartment for a potential sublessee. Additionally, highlight any amenities or features that you think may be useful for the sublessee to know as well.");
+    List<Part> imageBytesList = [];
+    for (var image in images) {
+      Uint8List imageBytes = await image.readAsBytes();
+      imageBytesList.add(DataPart('image/jpeg', imageBytes));
+    }
+    final response = await model.generateContent([
+    Content.multi([prompt, ...imageBytesList])
+  ]);
+    return response.text;
   }
 }
 
