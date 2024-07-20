@@ -9,11 +9,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../firestore_service.dart';
 import 'package:uuid/uuid.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 
-final geminiApiKey = 'AIzaSyD_Y1NAZtWP2DvgD3OT748H3nJT2m-sxV4';
+const geminiApiKey = 'AIzaSyD_Y1NAZtWP2DvgD3OT748H3nJT2m-sxV4';
 final List<String> _sexList = ['Male', 'Female'];
-final List<String> _aptNameList = [
+List<String> _aptNameList = [
   'Moontower',
   'Lark',
   '2400 Nueces',
@@ -83,6 +82,7 @@ class _SublessorFormState extends State<SublessorForm> {
       List<String> imageUrls =
           await uploadImagesToFirebaseStorage(images, currUuid);
       String? aptCondition = await getAptConditionFromGemini(images);
+      int? getFairMarketValue = await(getFairMarketValueFromGemini(images));
       final posting = {
         'name': name,
         'email': email,
@@ -94,12 +94,19 @@ class _SublessorFormState extends State<SublessorForm> {
         'additional_info': additionalInfo,
         'preferred_sublessee_sex': sublesseePreferredSex,
         'images': imageUrls,
-        'apartment_condition': aptCondition
+        'apartment_condition': aptCondition,
+        'fair_market_value': getFairMarketValue
       };
       db.collection('postings').add(posting).then((DocumentReference doc) =>
           print('Apartment added with ID: ${doc.id}'));
 
       print('Form submitted!');
+      
+      if (!_aptNameList.contains(aptName)) {
+        setState(() {
+          _aptNameList.insert(_aptNameList.length - 1, aptName!);
+        });
+      }
 
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => PostingSuccess()));
@@ -597,7 +604,7 @@ class _SublessorFormState extends State<SublessorForm> {
   
   Future<String?> getAptConditionFromGemini (List<File> images) async {
     final model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: geminiApiKey);
-    final prompt = TextPart("In a few words, describe the condition of this apartment for a potential sublessee. Additionally, highlight any amenities or features that you think may be useful for the sublessee to know as well.");
+    final prompt = TextPart("In very few words, describe the condition of this apartment for a potential sublessee. Additionally, highlight any amenities or features that you think may be useful for the sublessee to know as well.");
     List<Part> imageBytesList = [];
     for (var image in images) {
       Uint8List imageBytes = await image.readAsBytes();
@@ -607,6 +614,21 @@ class _SublessorFormState extends State<SublessorForm> {
     Content.multi([prompt, ...imageBytesList])
   ]);
     return response.text;
+  }
+
+  Future<int?> getFairMarketValueFromGemini(List<File> images) async {
+    final model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: geminiApiKey);
+    final prompt = TextPart("Respond only with a dollar value of how much the fair market value of this apartment would be. The dollar value should be a monthly price for a sublessor to sublease in Austin. Do not include the dollar symbol, just a numeric value.");
+    List<Part> imageBytesList = [];
+    for (var image in images) {
+      Uint8List imageBytes = await image.readAsBytes();
+      imageBytesList.add(DataPart('image/jpeg', imageBytes));
+    }
+    final response = await model.generateContent([
+    Content.multi([prompt, ...imageBytesList])
+  ]);
+  print(response.text);;
+    return int.parse(response.text!);
   }
 }
 

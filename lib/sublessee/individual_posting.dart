@@ -202,6 +202,35 @@ class _IndividualPostingState extends State<IndividualPosting> {
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(left: 35, right: 35),
                           child: Text('Email: ${posting['email']}')),
+                      const SizedBox(height: 30),
+                      const Text('AI-Generated Information',
+                          style: TextStyle(fontSize: 20)),
+                      const SizedBox(height: 15),
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 35, right: 35),
+                          child: Text(
+                              'Condition of the Apartment: ${posting['apartment_condition']}')),
+                      const SizedBox(height: 5),
+                      Container(
+                          padding: const EdgeInsets.only(left: 35, right: 35),
+                          child: Text(
+                              'Fair Market Value: \$${posting['fair_market_value']}', textAlign: TextAlign.center)),
+                        const SizedBox(height: 5),
+                        Column(
+                        children: [
+                           posting['price'] > posting['fair_market_value']
+                              ? Container(
+                                alignment: Alignment.centerLeft,
+                                padding: const EdgeInsets.only(left: 35, right: 35),
+                                child: Text(
+                                    '*Posting is \$${posting['price'] - posting['fair_market_value']} more expensive than fair market value!*', textAlign: TextAlign.center, style: const TextStyle(color: Colors.red)))
+                              : Container(
+                                padding: const EdgeInsets.only(left: 35, right: 35),
+                                child: Text(
+                                  '*Posting is \$${posting['fair_market_value'] - posting['price']} cheaper than fair market value!*', textAlign: TextAlign.center, style: const TextStyle(color: Color.fromARGB(255, 54, 112, 56)))), 
+                        ],
+                      ),
                       const SizedBox(height: 20),
                       ElevatedButton(
                         style: ButtonStyle(
@@ -212,7 +241,8 @@ class _IndividualPostingState extends State<IndividualPosting> {
                         },
                         child: const Text('Email Sublessor',
                             style: TextStyle(color: Colors.white)),
-                      )
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ))))
         ]));
@@ -224,6 +254,13 @@ String? encodeQueryParameters(Map<String, String> params) {
       .map((MapEntry<String, String> e) =>
           '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
       .join('&');
+}
+
+int getIntParsedFromPrice(String? price) {
+  if (price == null) {
+    price = "\$1000";
+  }
+  return int.parse(price.replaceAll(RegExp(r'[^0-9]'),''));
 }
 
 // TODO: need to test if sending email actually works
