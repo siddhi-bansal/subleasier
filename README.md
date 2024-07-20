@@ -26,7 +26,6 @@ I will use this README to track To-Dos and pending items for now.
 7. Look into how to make code production ready
 
 
-
 **-------****-------****-------****-------****-------****-------****-------****-------****-------****-------**
 AI Applications for Gemini API Developer Competition
 
@@ -34,8 +33,8 @@ API Key: AIzaSyD_Y1NAZtWP2DvgD3OT748H3nJT2m-sxV4
 
 Use-Cases/Applications (in order of implementation):
 1. DONE: Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
-2. Predict fair market value
-3. Customize sublease contracts based on user inputs
-4. Image recognition to verify authenticity of images uploaded by users (prevent fraud)
-5. Chatbot assistance to help with common queries, guide through app, help find suitable listings
-6. Sublessees can navigate neighborhood of apartment
+2. DONE: Predict fair market value
+3. Image recognition to verify authenticity of images uploaded by users (prevent fraud)
+4. Chatbot assistance to help with common queries, guide through app, help find suitable listings
+5. Sublessees can navigate neighborhood of apartment
+6. Customize sublease contracts based on user inputs

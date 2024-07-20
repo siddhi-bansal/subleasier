@@ -170,6 +170,12 @@ class _IndividualPostingState extends State<IndividualPosting> {
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(left: 35, right: 35),
                           child: Text(
+                              'Dates: ${posting['sublease_start_date']} to ${posting['sublease_end_date']}', textAlign: TextAlign.center)),
+                      const SizedBox(height: 15),
+                      Container(
+                          alignment: Alignment.centerLeft,
+                          padding: const EdgeInsets.only(left: 35, right: 35),
+                          child: Text(
                               'Preferred Sublessee Sex: ${posting['preferred_sublessee_sex']}')),
                       const SizedBox(height: 15),
                       Container(
@@ -235,7 +241,7 @@ class _IndividualPostingState extends State<IndividualPosting> {
                       ElevatedButton(
                         style: ButtonStyle(
                             backgroundColor: WidgetStateProperty.all<Color>(
-                                const Color.fromARGB(120, 255, 115, 0))),
+                                const Color.fromARGB(230, 191, 87, 0))),
                         onPressed: () {
                           sendEmail(posting['email']);
                         },

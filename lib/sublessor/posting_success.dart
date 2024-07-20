@@ -149,7 +149,7 @@ class _PostingSuccessState extends State<PostingSuccess> {
                         child: ElevatedButton(
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all<Color>(
-                                  const Color.fromARGB(120, 255, 115, 0)),
+                                  const Color.fromARGB(230, 191, 87, 0)),
                               minimumSize: WidgetStateProperty.all<Size>(
                                   const Size(10, 40)),
                             ),

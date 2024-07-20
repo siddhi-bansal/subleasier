@@ -9,9 +9,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import '../firestore_service.dart';
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 const geminiApiKey = 'AIzaSyD_Y1NAZtWP2DvgD3OT748H3nJT2m-sxV4';
 final List<String> _sexList = ['Male', 'Female'];
+final List<String> _preferredSexList = ['Male', 'Female', 'Either'];
 List<String> _aptNameList = [
   'Moontower',
   'Lark',
@@ -27,6 +29,8 @@ Map<String, String> _aptUrls = {
   'Inspire': 'https://www.liveatinspireatx.com/'
 };
 List<File> _images = [];
+var _startDateController = TextEditingController();
+var _endDateController = TextEditingController();
 
 class SublessorForm extends StatefulWidget {
   @override
@@ -72,11 +76,11 @@ class _SublessorFormState extends State<SublessorForm> {
       String? sublesseePreferredSex,
       List<File> images,
       Function setImageErrorTrue) async {
-    if (images.isEmpty) {
-      setImageErrorTrue();
-      return null;
-    }
     if (_formKey.currentState!.validate()) {
+      if (images.isEmpty) {
+        setImageErrorTrue();
+        return null;
+      }
       final db = FirestoreService().db;
       String currUuid = uuid.v4();
       List<String> imageUrls =
@@ -91,6 +95,8 @@ class _SublessorFormState extends State<SublessorForm> {
         'apt_name': aptName,
         'apt_url': aptUrl,
         'bathroom_type': bathroomType,
+        'sublease_start_date': _startDateController.text,
+        'sublease_end_date': _endDateController.text,
         'additional_info': additionalInfo,
         'preferred_sublessee_sex': sublesseePreferredSex,
         'images': imageUrls,
@@ -101,17 +107,52 @@ class _SublessorFormState extends State<SublessorForm> {
           print('Apartment added with ID: ${doc.id}'));
 
       print('Form submitted!');
-      
+
       if (!_aptNameList.contains(aptName)) {
         setState(() {
           _aptNameList.insert(_aptNameList.length - 1, aptName!);
         });
       }
 
+      _startDateController.clear();
+      _endDateController.clear();
+
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => PostingSuccess()));
     }
     // else, Flutter will automatically handle error.
+  }
+
+  Future<void> _selectDate(BuildContext context, TextEditingController controller) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+      builder:  (BuildContext context, Widget? child) {
+      return Theme(
+        data: Theme.of(context).copyWith(
+          colorScheme: const ColorScheme.light(
+            primary: Color.fromARGB(230, 191, 87, 0), // Header background color
+            onPrimary: Colors.white, // Header text color
+            onSurface: Colors.black, // Body text color
+          ),
+          textButtonTheme: TextButtonThemeData(
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.black, // Button text color
+            ),
+          ),
+        ),
+        child: child!,
+      );
+    },
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        controller.text = DateFormat('MMMM d, yyyy').format(pickedDate);
+      });
+    }
   }
 
   Future getImages() async {
@@ -332,6 +373,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             onChanged: (String? value) {
                               setState(() {
                                 _sex = value;
+                              _sublesseePreferredSex = value;
                               });
                             },
                           ),
@@ -489,6 +531,40 @@ class _SublessorFormState extends State<SublessorForm> {
                               const SizedBox(height: 15.0),
                             ]),
                           TextFormField(
+                controller: _startDateController,
+                decoration: const InputDecoration(
+                  labelText: 'Sublease Start Date',
+                  hintText: 'Select Start Date',
+                ),
+                onTap: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  _selectDate(context, _startDateController);
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter a start date';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _endDateController,
+                decoration: const InputDecoration(
+                  labelText: 'Sublease End Date',
+                  hintText: 'Select End Date',
+                ),
+                onTap: () {
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  _selectDate(context, _endDateController);
+                },
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter an end date';
+                  }
+                  return null;
+                },
+              ),
+                          TextFormField(
                             decoration: const InputDecoration(
                               labelText: 'Additional Info about Apartment',
                               labelStyle:
@@ -516,7 +592,7 @@ class _SublessorFormState extends State<SublessorForm> {
                             onPressed: getImages,
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all<Color>(
-                                  const Color.fromARGB(120, 255, 115, 0)),
+                                  const Color.fromARGB(230, 191, 87, 0)),
                               minimumSize: WidgetStateProperty.all<Size>(
                                   const Size(20, 30)),
                               shape: WidgetStateProperty.all<
@@ -553,7 +629,7 @@ class _SublessorFormState extends State<SublessorForm> {
                               ),
                             ),
                             value: _sublesseePreferredSex,
-                            items: _sexList.map((String value) {
+                            items: _preferredSexList.map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
                                 child: Text(value),
@@ -570,7 +646,7 @@ class _SublessorFormState extends State<SublessorForm> {
                               style: ButtonStyle(
                                   backgroundColor: WidgetStateProperty.all<
                                           Color>(
-                                      const Color.fromARGB(120, 255, 115, 0))),
+                                      const Color.fromARGB(230, 191, 87, 0))),
                               onPressed: () {
                                 // print('yas');
                                 _formKey.currentState!.save();
@@ -649,6 +725,5 @@ Future<List<String>> uploadImagesToFirebaseStorage(
   } catch (e) {
     print('error: $e');
   }
-
   return imageUrls;
 }
