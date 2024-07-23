@@ -5,7 +5,7 @@ String selectedPage = '';
 
 class IndividualPosting extends StatefulWidget {
   final Map<String, dynamic> posting;
-  const IndividualPosting({required this.posting});
+  const IndividualPosting({super.key, required this.posting});
   @override
   _IndividualPostingState createState() => _IndividualPostingState();
 }
@@ -263,9 +263,7 @@ String? encodeQueryParameters(Map<String, String> params) {
 }
 
 int getIntParsedFromPrice(String? price) {
-  if (price == null) {
-    price = "\$1000";
-  }
+  price ??= "\$1000";
   return int.parse(price.replaceAll(RegExp(r'[^0-9]'),''));
 }
 

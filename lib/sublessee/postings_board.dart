@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dash_chat_2/dash_chat_2.dart';
 import 'package:flutter/material.dart';
+import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:subleasier/sublessee/chat_screen.dart';
 import 'package:subleasier/sublessee/individual_posting.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../firestore_service.dart';
@@ -8,11 +11,15 @@ String selectedPage = '';
 List<Map<String, dynamic>> allPostings = [];
 
 class PostingsBoard extends StatefulWidget {
+  const PostingsBoard({super.key});
+
   @override
   _PostingsBoardState createState() => _PostingsBoardState();
 }
 
 class _PostingsBoardState extends State<PostingsBoard> {
+  final TextEditingController _controller = TextEditingController();
+
   Future<void> loadPostings() async {
     List<Map<String, dynamic>> postings = await getAllPostingsFromFirestore();
     setState(() {
@@ -165,7 +172,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
                   child: ListView.builder(
                       itemCount: entriesList.length,
                       itemBuilder: (context, index) {
-                        final curr_postings = entriesList[index].value;
+                        final currPostings = entriesList[index].value;
                         return ListTile(
                           title: Container(
                               // padding: EdgeInsets.only(top: 10, left: 15),
@@ -185,7 +192,7 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                               fontSize: 20,
                                               color: Colors.black)),
                                       onPressed: () => launchUrlForApt(
-                                          curr_postings[0]['apt_url']),
+                                          currPostings[0]['apt_url']),
                                     )),
                                 SizedBox(
                                     height: 220,
@@ -193,10 +200,10 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                     child: ListView.builder(
                                         shrinkWrap: true,
                                         scrollDirection: Axis.horizontal,
-                                        itemCount: curr_postings.length,
+                                        itemCount: currPostings.length,
                                         itemBuilder: (currContext, currIndex) {
                                           final posting =
-                                              curr_postings[currIndex];
+                                              currPostings[currIndex];
                                           return ElevatedButton(
                                               onPressed: () {
                                                 navigateToIndividualPosting(
@@ -256,12 +263,31 @@ class _PostingsBoardState extends State<PostingsBoard> {
                                         }))
                               ])),
                         );
-                      })))
+                      }))),
+          Positioned(
+                  bottom: 16,
+                  right: 16,
+                  child: FloatingActionButton (
+                    backgroundColor: Color.fromARGB(230, 191, 87, 0),
+                    onPressed: () {
+                      {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ChatScreen(database: allPostings),
+                          ),
+                        );
+                      }
+                    },
+                    child: const Icon(Icons.chat_bubble_outline_rounded, color: Colors.white,)
+                    )
+                  ),
         ],
       ),
     );
   }
 }
+
 
 Future<List<Map<String, dynamic>>> getAllPostingsFromFirestore() async {
   final db = FirestoreService().db;
@@ -270,6 +296,7 @@ Future<List<Map<String, dynamic>>> getAllPostingsFromFirestore() async {
     QuerySnapshot querySnapshot = await db.collection("postings").get();
     for (var docSnapshot in querySnapshot.docs) {
       Map<String, dynamic> posting = docSnapshot.data() as Map<String, dynamic>;
+      posting['id'] = docSnapshot.id;
       allPostings.add(posting);
     }
   } catch (e) {

@@ -33,6 +33,8 @@ var _startDateController = TextEditingController();
 var _endDateController = TextEditingController();
 
 class SublessorForm extends StatefulWidget {
+  const SublessorForm({super.key});
+
   @override
   _SublessorFormState createState() => _SublessorFormState();
 }
@@ -118,7 +120,7 @@ class _SublessorFormState extends State<SublessorForm> {
       _endDateController.clear();
 
       Navigator.push(
-          context, MaterialPageRoute(builder: (context) => PostingSuccess()));
+          context, MaterialPageRoute(builder: (context) => const PostingSuccess()));
     }
     // else, Flutter will automatically handle error.
   }
@@ -537,7 +539,7 @@ class _SublessorFormState extends State<SublessorForm> {
                   hintText: 'Select Start Date',
                 ),
                 onTap: () {
-                  FocusScope.of(context).requestFocus(new FocusNode());
+                  FocusScope.of(context).requestFocus(FocusNode());
                   _selectDate(context, _startDateController);
                 },
                 validator: (value) {
@@ -554,7 +556,7 @@ class _SublessorFormState extends State<SublessorForm> {
                   hintText: 'Select End Date',
                 ),
                 onTap: () {
-                  FocusScope.of(context).requestFocus(new FocusNode());
+                  FocusScope.of(context).requestFocus(FocusNode());
                   _selectDate(context, _endDateController);
                 },
                 validator: (value) {
@@ -703,7 +705,7 @@ class _SublessorFormState extends State<SublessorForm> {
     final response = await model.generateContent([
     Content.multi([prompt, ...imageBytesList])
   ]);
-  print(response.text);;
+  print(response.text);
     return int.parse(response.text!);
   }
 }

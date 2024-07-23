@@ -4,6 +4,8 @@ import 'package:subleasier/sublessee/postings_board.dart';
 String selectedPage = '';
 
 class PostingSuccess extends StatefulWidget {
+  const PostingSuccess({super.key});
+
   @override
   _PostingSuccessState createState() => _PostingSuccessState();
 }
@@ -157,7 +159,7 @@ class _PostingSuccessState extends State<PostingSuccess> {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => PostingsBoard()));
+                                      builder: (context) => const PostingsBoard()));
                             },
                             child: const Center(
                                 child: Text('View all Listings',

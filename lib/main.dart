@@ -25,10 +25,10 @@ class MyApp extends StatelessWidget {
         ),
         home: const MyHomePage(title: 'SUBLEASIER'),
         routes: {
-          '/home': (context) => MyApp(),
-          '/sublessor_form': (context) => SublessorForm(),
-          '/all_listings': (context) => PostingsBoard(),
-          '/profile': (context) => Profile(),
+          '/home': (context) => const MyApp(),
+          '/sublessor_form': (context) => const SublessorForm(),
+          '/all_listings': (context) => const PostingsBoard(),
+          '/profile': (context) => const Profile(),
         });
   }
 }
@@ -169,7 +169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => SublessorForm()),
+                      MaterialPageRoute(builder: (context) => const SublessorForm()),
                     );
                   },
                   child: const Column(
@@ -203,7 +203,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   onPressed: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => PostingsBoard()),
+                      MaterialPageRoute(builder: (context) => const PostingsBoard()),
                     );
                   },
                   child: const Column(
