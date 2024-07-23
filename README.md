@@ -35,6 +35,6 @@ Use-Cases/Applications (in order of implementation):
 1. DONE: Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
 2. DONE: Predict fair market value
 3. Image recognition to verify authenticity of images uploaded by users (prevent fraud)
-4. Chatbot assistance to help with common queries, guide through app, help find suitable listings
+4. DONE: Chatbot assistance to help with finding suitable listings
 5. Sublessees can navigate neighborhood of apartment
 6. Customize sublease contracts based on user inputs
