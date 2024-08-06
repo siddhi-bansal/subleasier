@@ -25,7 +25,6 @@ I will use this README to track To-Dos and pending items for now.
 6. Test on Android (need to set up Android emulator, after which I need to test all the functionality on Android)
 7. Look into how to make code production ready
 
-
 **-------****-------****-------****-------****-------****-------****-------****-------****-------****-------**
 AI Applications for Gemini API Developer Competition
 
@@ -36,5 +35,6 @@ Use-Cases/Applications (in order of implementation):
 2. DONE: Predict fair market value
 3. Image recognition to verify authenticity of images uploaded by users (prevent fraud)
 4. DONE: Chatbot assistance to help with finding suitable listings
-5. Sublessees can navigate neighborhood of apartment
-6. Customize sublease contracts based on user inputs
+5. DONE: Add image cards to Gemini chat feature
+6. Sublessees can navigate neighborhood of apartment
+7. Customize sublease contracts based on user inputs
