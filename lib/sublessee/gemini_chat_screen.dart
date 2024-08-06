@@ -206,7 +206,7 @@ Future<List<dynamic>?> geminiResponse(String message) async {
       body: Column(
         children: [
           const SizedBox(height: 10),
-          const Padding(padding: EdgeInsets.only(left: 20, right: 20),
+          const Padding(padding: EdgeInsets.only(left: 20, right: 20, bottom: 20),
           child: Text("Welcome to Chat with Gemini!",  textAlign: TextAlign.center, style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 22.0,
