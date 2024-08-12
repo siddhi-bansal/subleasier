@@ -1,6 +1,6 @@
 # subleasier
 
-A new Flutter project.
+Make subleasing easier with Subleasier!
 
 ## Getting Started
 
@@ -27,8 +27,6 @@ I will use this README to track To-Dos and pending items for now.
 
 **-------****-------****-------****-------****-------****-------****-------****-------****-------****-------**
 AI Applications for Gemini API Developer Competition
-
-API Key: AIzaSyD_Y1NAZtWP2DvgD3OT748H3nJT2m-sxV4
 
 Use-Cases/Applications (in order of implementation):
 1. DONE: Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
