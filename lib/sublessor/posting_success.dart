@@ -100,7 +100,6 @@ class _PostingSuccessState extends State<PostingSuccess> {
           image: DecorationImage(
             image: const AssetImage('images/tower.jpg'),
             fit: BoxFit.cover,
-            // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
             alignment: const Alignment(0.05, 0),
             colorFilter: ColorFilter.mode(
               Colors.black.withOpacity(0.8),

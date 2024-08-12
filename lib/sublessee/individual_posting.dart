@@ -101,7 +101,6 @@ class _IndividualPostingState extends State<IndividualPosting> {
               image: DecorationImage(
                 image: const AssetImage('images/tower.jpg'),
                 fit: BoxFit.cover,
-                // alignment: Alignment(20 / MediaQuery.of(context).size.width, 0),
                 alignment: const Alignment(0.05, 0),
                 colorFilter: ColorFilter.mode(
                   Colors.black.withOpacity(0.8),
@@ -253,7 +252,6 @@ int getIntParsedFromPrice(String? price) {
   return int.parse(price.replaceAll(RegExp(r'[^0-9]'),''));
 }
 
-// TODO: need to test if sending email actually works
 Future<void> sendEmail(String emailAddress) async {
   final Uri emailLaunchUri = Uri(
     scheme: 'mailto',
@@ -261,8 +259,6 @@ Future<void> sendEmail(String emailAddress) async {
   );
   try {
     await launchUrl(emailLaunchUri);
-    // NOTE: email doesn't launch on iOS because Mail not installed
-    // on iOS emulator. The button has not been tested yet.
   } catch (e) {
     print('Could not launch email: $e');
   }

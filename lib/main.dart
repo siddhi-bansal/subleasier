@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'sublessor/posting_form.dart';
 import 'sublessee/postings_board.dart';
 import 'package:firebase_core/firebase_core.dart';
-// import 'package:google_generative_ai/google_generative_ai.dart';
 
 String selectedPage = '';
 

@@ -28,33 +28,6 @@ class _ChatScreenState extends State<ChatScreen> {
   void initState() {
     super.initState();
   }
-    
-  // Future<String> geminiResponse(String message) async {
-  //   final model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: geminiApiKey);
-  //   setState(() {
-  //     _geminiResponseLoading = true;
-  //   });
-  //   try {
-  //     final chat = model.startChat(history: _historyContents);
-  //     String finalMessage = "Based on the following requirements of the user and the provided database of allListings, return the top 5 recommendations for the user. Return only a list of IDs of the top 5 recommendations as Strings with double quotations. If the user's message does not describe requirements, just return an empty list\n";
-  //     finalMessage += "User Message: $message\n";
-  //     finalMessage += "Database: ${widget.database}\n";
-  //     final response = await chat.sendMessage(Content.text(finalMessage));
-  //     List<dynamic> aptRecsList = jsonDecode(response.text!);
-  //     if (aptRecsList.isEmpty) {
-  //       return 'I am sorry, but I could not find any apartment recommendations for you based on your responses.';
-  //     } else {
-  //       return 'Sure! Here are some apartment recommendations for you based on your responses: \n${aptRecsList.toString()}';
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //     return 'A problem occured. Please try again.';
-  //   } finally {
-  //     setState(() {
-  //       _geminiResponseLoading = false;
-  //     });
-  //   }
-  // }
 
 Future<List<dynamic>?> geminiResponse(String message) async {
     final model = GenerativeModel(model: 'gemini-1.5-flash-latest', apiKey: geminiApiKey);
@@ -68,14 +41,8 @@ Future<List<dynamic>?> geminiResponse(String message) async {
       finalMessage += "Database: ${widget.database}\n";
       final response = await chat.sendMessage(Content.text(finalMessage));
       List<dynamic> aptRecsList = jsonDecode(response.text!);
-      // setState(() {
-      //   _geminiResponseLoading = false;
-      // });
       return aptRecsList;
     } catch (e) {
-      // setState(() {
-      //   _geminiResponseLoading = false;
-      // });
       print(e);
       return null;
     };

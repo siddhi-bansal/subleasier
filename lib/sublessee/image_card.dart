@@ -32,7 +32,6 @@ class ImageCard extends StatelessWidget {
                             BorderRadius.circular(
                                 20)))),
             child: Column(
-              // mainAxisSize: MainAxisSize.min,
               children: [
                 const SizedBox(height: 20),
                 Center(
