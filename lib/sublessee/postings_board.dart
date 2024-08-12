@@ -113,20 +113,6 @@ class _PostingsBoardState extends State<PostingsBoard> {
                       ],
                     )
                   ),
-                  PopupMenuItem(value: '/profile', 
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Icon(Icons.person_outline_rounded),
-                        ),
-                        Text(
-                          'Profile',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    )
-                  ),
                 ];
               })),
         title: const Text(

@@ -72,20 +72,6 @@ class _IndividualPostingState extends State<IndividualPosting> {
                       ],
                     )
                   ),
-                  PopupMenuItem(value: '/profile', 
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Icon(Icons.person_outline_rounded),
-                        ),
-                        Text(
-                          'Profile',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    )
-                  ),
                 ];
               })),
           title: const Text(
@@ -126,10 +112,10 @@ class _IndividualPostingState extends State<IndividualPosting> {
           ),
           Positioned(
               top: 145,
-              left: 31,
+              left: 20,
               child: Container(
                   width: 332,
-                  height: 680,
+                  height: 650,
                   decoration: BoxDecoration(
                       color: const Color.fromARGB(200, 255, 255, 255),
                       borderRadius: BorderRadius.circular(20)),
@@ -170,7 +156,7 @@ class _IndividualPostingState extends State<IndividualPosting> {
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(left: 35, right: 35),
                           child: Text(
-                              'Dates: ${posting['sublease_start_date']} to ${posting['sublease_end_date']}', textAlign: TextAlign.center)),
+                              'Dates: ${posting['sublease_start_date']} to ${posting['sublease_end_date']}')),
                       const SizedBox(height: 15),
                       Container(
                           alignment: Alignment.centerLeft,

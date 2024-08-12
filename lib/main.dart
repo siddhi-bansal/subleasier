@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'sublessor/posting_form.dart';
 import 'sublessee/postings_board.dart';
-import 'profile.dart';
 import 'package:firebase_core/firebase_core.dart';
 // import 'package:google_generative_ai/google_generative_ai.dart';
 
@@ -28,7 +27,6 @@ class MyApp extends StatelessWidget {
           '/home': (context) => const MyApp(),
           '/sublessor_form': (context) => const SublessorForm(),
           '/all_listings': (context) => const PostingsBoard(),
-          '/profile': (context) => const Profile(),
         });
   }
 }
@@ -98,20 +96,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         ),
                         Text(
                           'All Listings',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    )
-                  ),
-                  PopupMenuItem(value: '/profile', 
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Icon(Icons.person_outline_rounded),
-                        ),
-                        Text(
-                          'Profile',
                           style: TextStyle(fontSize: 15),
                         ),
                       ],

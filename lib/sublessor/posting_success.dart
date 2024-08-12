@@ -71,20 +71,6 @@ class _PostingSuccessState extends State<PostingSuccess> {
                       ],
                     )
                   ),
-                  PopupMenuItem(value: '/profile', 
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Icon(Icons.person_outline_rounded),
-                        ),
-                        Text(
-                          'Profile',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    )
-                  ),
                 ];
               })),
         title: const Text(
@@ -124,7 +110,7 @@ class _PostingSuccessState extends State<PostingSuccess> {
         )),
         Positioned(
             top: 313,
-            left: 31,
+            left: 20,
             child: Container(
                 width: 332,
                 height: 226,

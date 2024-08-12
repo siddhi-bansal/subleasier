@@ -229,20 +229,6 @@ class _SublessorFormState extends State<SublessorForm> {
                       ],
                     )
                   ),
-                  PopupMenuItem(value: '/profile', 
-                    child: Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: 8.0),
-                          child: Icon(Icons.person_outline_rounded),
-                        ),
-                        Text(
-                          'Profile',
-                          style: TextStyle(fontSize: 15),
-                        ),
-                      ],
-                    )
-                  ),
                 ];
               })),
         title: const Text(
@@ -282,10 +268,10 @@ class _SublessorFormState extends State<SublessorForm> {
         )),
         Positioned(
             top: 145,
-            left: 31,
+            left: 20,
             child: Container(
                 width: 332,
-                height: 680,
+                height: 650,
                 decoration: BoxDecoration(
                     color: const Color.fromARGB(200, 255, 255, 255),
                     borderRadius: BorderRadius.circular(20)),
