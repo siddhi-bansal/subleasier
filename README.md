@@ -30,13 +30,13 @@ I will use this README to track To-Dos and pending items for now.
 **-------****-------****-------****-------****-------****-------****-------****-------****-------****-------**
 ## AI Applications for Developer Competition
 
-# Use-Cases/Applications (in order of implementation):
+### Use-Cases/Applications (in order of implementation):
 1. Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
 2. Predict fair market value
 4. Chatbot assistance to help with finding suitable listings
 5. Add image cards to Gemini chat feature
 
-# Future Considerations:
+### Future Considerations:
 1. Sublessees can navigate neighborhood of apartment
 2. Customize sublease contracts based on user inputs
 3. Image recognition to verify authenticity of images uploaded by users (prevent fraud)
