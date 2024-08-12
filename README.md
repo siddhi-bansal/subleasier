@@ -27,7 +27,7 @@ I will use this README to track To-Dos and pending items for now.
 6. Test on Android (need to set up Android emulator, after which I need to test all the functionality on Android)
 7. Look into how to make code production ready
 
-## AI Applications for Developer Competition
+## AI Applications
 
 ### Use-Cases/Applications (in order of implementation):
 1. Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
