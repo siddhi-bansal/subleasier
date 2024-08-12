@@ -1,4 +1,4 @@
-# subleasier
+# Subleasier
 
 Make subleasing easier with Subleasier!
 
@@ -15,6 +15,8 @@ For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
 
+## Personal Notes
+
 I will use this README to track To-Dos and pending items for now.
 
 1. Email Sublessor Button has not been tested (since iOS emulator does not have Mail app)
@@ -26,13 +28,15 @@ I will use this README to track To-Dos and pending items for now.
 7. Look into how to make code production ready
 
 **-------****-------****-------****-------****-------****-------****-------****-------****-------****-------**
-AI Applications for Gemini API Developer Competition
+## AI Applications for Developer Competition
 
-Use-Cases/Applications (in order of implementation):
-1. DONE: Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
-2. DONE: Predict fair market value
+# Use-Cases/Applications (in order of implementation):
+1. Image recognition to use AI to analyze/tag images of apartments highlighting amenities, overall condition
+2. Predict fair market value
+4. Chatbot assistance to help with finding suitable listings
+5. Add image cards to Gemini chat feature
+
+# Future Considerations:
+1. Sublessees can navigate neighborhood of apartment
+2. Customize sublease contracts based on user inputs
 3. Image recognition to verify authenticity of images uploaded by users (prevent fraud)
-4. DONE: Chatbot assistance to help with finding suitable listings
-5. DONE: Add image cards to Gemini chat feature
-6. Sublessees can navigate neighborhood of apartment
-7. Customize sublease contracts based on user inputs
