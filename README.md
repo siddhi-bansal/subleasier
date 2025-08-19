@@ -1,6 +1,6 @@
 # Subleasier: Make Subleasing Easier with Subleasier!
 
-#### Check out Subleasier on the [2024 Gemini API Developer Competition page](https://ai.google.dev/competition/projects/subleasier) – includes a video walkthrough and additional details about the project.
+### Check out Subleasier on the [2024 Gemini API Developer Competition page](https://ai.google.dev/competition/projects/subleasier) – includes a video walkthrough and additional details about the project.
 
 ## Getting Started
 
